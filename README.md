@@ -11,10 +11,22 @@ The Duc Vu
 ## Project
 UTS HELPS Booking System
 
-## Instructions
+## Dependencies
+
+You'll need to install `python3`, `pip`, `virtualenv`, and `django`.
+
+## Running
+
+1. Activate the virtual environment:
+
 ```bash
-cd app
-source env/bin/activate # activate the virtual env
+cd app/env
+source bin/activate
+```
+
+2. Run test server:
+
+```bash
 cd env/helps_booking_system/
-python manage.py runserver
+python3 manage.py runserver
 ```
