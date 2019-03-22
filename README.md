@@ -1,6 +1,8 @@
 # Software Engineering Studio 2A - Team 10
 
-Maintainers:
+## UTS HELPS Booking System
+
+**Maintainers:**
 Michelle Chen
 Nathan Luu
 Nic Moiso
@@ -8,25 +10,34 @@ Richard Tong
 Aditya Verma
 The Duc Vu
 
-## Project
-UTS HELPS Booking System
-
 ## Dependencies
 
 You'll need to install `python3`, `pip`, `virtualenv`, and `django`.
 
-## Running
+## Virtual Environment
 
-1. Activate the virtual environment:
+We avoid system problems and dependency issues by running our project in virtual environments. It's recommended to have the environment activated when testing.
+
+**On Mac / Linux:**
 
 ```bash
-cd app/env
-source bin/activate
+# Activating
+source env/linux/bin/activate
+# when activated, you'll see (env) before your command line
+
+# Deactivating
+deactivate
 ```
 
-2. Run test server:
+**On Windows:**
 
 ```bash
-cd env/helps_booking_system/
+# TODO
+```
+
+## Running test server:
+
+```bash
+cd app/helps_booking_system/
 python3 manage.py runserver
 ```
