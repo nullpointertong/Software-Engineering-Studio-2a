@@ -31,8 +31,14 @@ deactivate
 
 **On Windows:**
 
-```bash
-# TODO
+```
+# Activating
+env\Windows\Scripts\activate
+# when activated, you'll see (env) before your command line
+
+# Deactivating
+env\Windows\Scripts\deactivate
+
 ```
 
 ## Running test server:
