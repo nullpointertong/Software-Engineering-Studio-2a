@@ -3,21 +3,25 @@ from django.http import HttpResponse
 
 
 def profile(request):
-    context = {}
+    context = {'profile_page': 'active'}
     return render(request, 'pages/layouts/profile.html', context)
 
 def sessions(request):
-    context = {}
+    context = {'sessions_page': 'active'}
     return render(request, 'pages/layouts/sessions.html', context)
 
 def workshops(request):
-    context = {}
+    context = {'workshops_page': 'active'}
     return render(request, 'pages/layouts/workshops.html', context)
 
 def programs(request):
-    context = {}
+    context = {'programs_page': 'active'}
     return render(request, 'pages/layouts/programs.html', context)
 
 def faq(request):
-    context = {}
+    context = {'faq_page': 'active'}
     return render(request, 'pages/layouts/faq.html', context)
+
+def exit(request):
+    context = {}
+    return render(request, 'pages/layouts/profile.html', context)
