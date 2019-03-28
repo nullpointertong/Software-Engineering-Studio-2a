@@ -20,11 +20,12 @@ from helps_student import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.profile, name='profile'),
-    path('profile/', views.profile, name='profile'),
+    path('', views.redirect_view, name='Login'),
+    path('accounts/profile/', views.profile, name='profile'),
     path('workshops/', views.workshops, name='workshops'),
-    path('sessions/', views.sessions, name='sessions'),
+    path('bookings/', views.bookings, name='bookings'),
     path('programs/', views.programs, name='programs'),
     path('faq/', views.faq, name='faq'),
     path('exit/', views.exit, name='exit')
 ]
+
