@@ -1,44 +1,79 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.utils.translation import ungettext_lazy as _
+from django.utils.translation import gettext_lazy as _g
 from django.contrib.auth.models import User
+from datetime import datetime
+
+def parse_time_strings(time_string):
+    '''Accepts a string and converts it into a list of datetimes'''
+    result_list = []
+    if len(time_string) != 19:
+        raise ValidationError(_g('Invalid date/time, please format as: "DD-MM-YYYY HH:MM:SS"'))
+    time_list = time_string.replace(' ','').split(',')
+    for time_piece in time_list:
+        day, month, year = time_piece[:10].split('-')
+        hour, minute, second = time_piece[-8:].split(':')
+        result_list.append(datetime(year=year, month=month, day=day, hour=hour, minute=minute, second=second))
+    return result_list
 
 class SessionListField(models.Field):
-    '''Field for list of sessions.
-    Accepts a list argument'''
+    '''Field for list of sessions. Accepts list of datetimes'''
+
+    description = _g('String of session times')
 
     def __init__(self, sessions=[], *args, **kwargs):
         self.sessions = sessions
-        self.max_length = 2048
-        kwargs['max_length'] = self.max_length 
+        #self.max_length = 2048
+        #kwargs['max_length'] = self.max_length 
         super().__init__(*args, **kwargs)
+    
+    def __str__(self):
+        return ','.join([x.strftime('%d-%m-%Y %H:%M:%S') for x in self.sessions])
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
         # Must return arguments to pass to __init__ for reconstruction
         if self.sessions != []:
             kwargs['sessions'] = self.sessions
-        del kwargs['max_length']
+        #del kwargs['max_length']
         return name, path, args, kwargs
 
     def db_type(self, connection):
-        return 'sessionlist', 'char({})'.format(self.max_length)
+        return 'CharField'
+    
+    def rel_db_type(self, connection):
+        return 'CharField'
+
+    def get_prep_value(self, value):
+        # Return comma separated string of datetimes
+        return ','.join([x.strftime('%d-%m-%Y %H:%M:%S') for x in value])
 
     def from_db_value(self, value, expression, connection):
-        return value
+        if value is None:
+            return value
+        return parse_time_strings(value)
 
     def to_python(self, value):
-        pass
+        if isinstance(value, dict):
+            return value
+        if value is None:
+            return value
+        return parse_time_strings(value)
+
+    def value_to_string(self, obj):
+        value = self.value_from_object(obj)
+        return self.get_prep_value(value)
     
 
-
-class session():
+class Session():
     session_ID = models.IntegerField(primary_key=True)
     student_id = models.ForeignKey(
-        'studentAccount',
+        'StudentAccount',
         on_delete=models.CASCADE
     )
     staff_id = models.ForeignKey(
-        'staffAccount',
+        'StaffAccount',
         on_delete=models.CASCADE
     )
     Location  = models.CharField(max_length=30)
@@ -46,7 +81,7 @@ class session():
     Has_Finished  = models.BooleanField()
     No_Show = models.BooleanField()
 
-class staffAccount():
+class StaffAccount():
     staff_id = models.PositiveIntegerField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -67,7 +102,7 @@ class staffAccount():
     Country_of_origin = models.CharField(max_length=64)
     Educational_Background = models.CharField(max_length=64)
 
-class studentAccount():
+class StudentAccount():
     student_id = models.IntegerField()
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
