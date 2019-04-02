@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.contrib.auth import logout
 
 def login_request(request):
     context = {'login_request': 'active'}
@@ -26,9 +27,9 @@ def faq(request):
     return render(request, 'pages/layouts/faq.html', context)
 
 def exit(request):
-    context = {}
-    return render(request, 'pages/layouts/profile.html', context)
+    logout(request)
+    return redirect_view(request)
 
 def redirect_view(request):
-    response = redirect('accounts/login/')
+    response = redirect('/accounts/login/')
     return response
