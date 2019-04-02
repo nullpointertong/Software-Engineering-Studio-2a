@@ -2,59 +2,89 @@ from django.db import models
 from django.utils.translation import ungettext_lazy as _
 from django.contrib.auth.models import User
 
+class SessionListField(models.Field):
+    '''Field for list of sessions.
+    Accepts a list argument'''
+
+    def __init__(self, sessions=[], *args, **kwargs):
+        self.sessions = sessions
+        self.max_length = 2048
+        kwargs['max_length'] = self.max_length 
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        # Must return arguments to pass to __init__ for reconstruction
+        if self.sessions != []:
+            kwargs['sessions'] = self.sessions
+        del kwargs['max_length']
+        return name, path, args, kwargs
+
+    def db_type(self, connection):
+        return 'sessionlist', 'char({})'.format(self.max_length)
+
+    def from_db_value(self, value, expression, connection):
+        return value
+
+    def to_python(self, value):
+        pass
+    
+
+
 class session():
-    session_ID = models.IntegerField(max_length=30,primary_key=True)
-    # student_id = models.ForeignKey(studentAccount, on_delete=models.CASCADE)
-    # staff_id = models.ForeignKey(staffAccount, on_delete=models.CASCADE)
+    session_ID = models.IntegerField(primary_key=True)
+    student_id = models.ForeignKey(
+        'studentAccount',
+        on_delete=models.CASCADE
+    )
+    staff_id = models.ForeignKey(
+        'staffAccount',
+        on_delete=models.CASCADE
+    )
     Location  = models.CharField(max_length=30)
-    Session_time = models.IntegerField(max_length=30)
-    Has_Finished  = models.BooleanField(max_length=30)
-    No_Show = models.BooleanField(max_length=30)
+    Session_time = models.DateTimeField()
+    Has_Finished  = models.BooleanField()
+    No_Show = models.BooleanField()
 
 class staffAccount():
-    staff_id = models.IntegerField(max_length=30,primary_key=True)
+    staff_id = models.PositiveIntegerField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    # staff_id = models.ForeignKey()
-    Email  = models.CharField(max_length=30)
+    Email  = models.EmailField()
     # Session histories (Array of <Session>)
     # No-show history
-    # Sessions taught? 
-    # Position
-    # students? 
     Faculty =  models.CharField(max_length=30)
     Course =  models.CharField(max_length=30)
-    Preferred_First_Name = models.CharField(max_length=30)
-    Phone = models.IntegerField(max_length=30)
-    Mobile = models.IntegerField(max_length=30)
-    Best_contact_no = models.IntegerField(max_length=30)
-    DOB = models.CharField(max_length=30)
-    Gender = models.CharField(max_length=30)
-    Degree = models.CharField(max_length=30)
-    Status = models.CharField(max_length=30)
-    First_language = models.CharField(max_length=30)
-    Country_of_origin = models.CharField(max_length=30)
-    Educational_Background = models.CharField(max_length=30)
+    Preferred_First_Name = models.CharField(max_length=64)
+    Phone = models.IntegerField()
+    Mobile = models.IntegerField()
+    Best_contact_no = models.IntegerField()
+    DOB = models.DateField()
+    Gender = models.CharField(max_length=24)
+    Degree = models.CharField(max_length=64)
+    Status = models.CharField(max_length=64)
+    First_language = models.CharField(max_length=32)
+    Country_of_origin = models.CharField(max_length=64)
+    Educational_Background = models.CharField(max_length=64)
 
 class studentAccount():
-    student_id = models.IntegerField(max_length=30)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    # staff_id = models.ForeignKey(staffAccount, on_delete=models.CASCADE)
-    Email  = models.CharField(max_length=30)
+    student_id = models.IntegerField()
+    first_name = models.CharField(max_length=32)
+    last_name = models.CharField(max_length=32)
+    Email  = models.EmailField()
     # Session histories (Array of <Session>)
     # No-show history
-    Faculty =  models.CharField(max_length=30)
-    Course =  models.CharField(max_length=30)
-    Preferred_First_Name = models.CharField(max_length=30)
-    Phone = models.IntegerField(max_length=30)
-    Mobile = models.IntegerField(max_length=30)
-    Best_contact_no = models.IntegerField(max_length=30)
-    DOB = models.CharField(max_length=30)
-    Gender = models.CharField(max_length=30)
-    Degree = models.CharField(max_length=30)
-    Status = models.CharField(max_length=30)
-    First_language = models.CharField(max_length=30)
+    Faculty =  models.CharField(max_length=32)
+    Course =  models.CharField(max_length=64)
+    Preferred_First_Name = models.CharField(max_length=64)
+    Phone = models.IntegerField()
+    Mobile = models.IntegerField()
+    Best_contact_no = models.IntegerField()
+    DOB = models.EmailField()
+    Gender = models.CharField(max_length=32)
+    Degree = models.CharField(max_length=64)
+    Status = models.CharField(max_length=64)
+    First_language = models.CharField(max_length=32)
     Country_of_origin = models.CharField(max_length=30)
     Educational_Background = models.CharField(max_length=30)
 
