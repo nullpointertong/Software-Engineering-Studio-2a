@@ -1,0 +1,24 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', serif;
+}
+nav a {
+    display: block;
+    float: left;
+/*We're just setting up fonts settings here*/
+    font-family: sans-serif;
+    font-size: 9px;
+    color: white;
+/*Box Method Test AKA handicap*/
+    background-color: #17b0cf;
+    border: 1px solid #000;
+   
+   /*Padding Our Box*/
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+ 
