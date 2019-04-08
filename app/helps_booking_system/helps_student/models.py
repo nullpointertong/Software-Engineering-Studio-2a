@@ -58,6 +58,20 @@ class studentAccount():
     Country_of_origin = models.CharField(max_length=30)
     Educational_Background = models.CharField(max_length=30)
 
+class Workshop():
+    workshop_id = models.IntegerField(max_length = 30, primary_key=True)
+    workshop_topic = models.CharField(max_length = 30)
+    workshop_startdate = models.DateField()
+    workshop_enddate = models.DateField()
+    workshop_days = models.CharField(max_length=3)
+    workshop_starttime = models.IntegerField(max_length = 4)
+    workshop_endtime = models.IntegerField(max_length= 4)
+    workshop_sessions_no = models.IntegerField(max_length= 2)
+    workshop_places_avail = models.IntegerField(max_length= 3)
+
+    
+
+
 
 
 # class UserAccount(models.Model):
