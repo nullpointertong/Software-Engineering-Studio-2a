@@ -67,6 +67,7 @@ class SessionListField(models.Field):
     
 
 class Session():
+
     session_ID = models.IntegerField(primary_key=True)
     student_id = models.ForeignKey(
         'StudentAccount',
@@ -76,54 +77,78 @@ class Session():
         'StaffAccount',
         on_delete=models.CASCADE
     )
-    Location  = models.CharField(max_length=30)
-    Session_time = models.DateTimeField()
-    Has_Finished  = models.BooleanField()
-    No_Show = models.BooleanField()
+    location  = models.CharField(max_length=30)
+    session_time = models.DateTimeField()
+    has_finished  = models.BooleanField()
+    no_show = models.BooleanField()
+
+    def __str__(self):
+        description = [
+            "Session ID: {}".format(self.session_ID),
+            "Staff ID: {}".format(self.staff_id),
+            "Student ID: {}".format(self.student_id)
+        ]
+        return "\n".join(description)
 
 class StaffAccount():
+
     staff_id = models.PositiveIntegerField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
-    Email  = models.EmailField()
-    # Session histories (Array of <Session>)
-    # No-show history
-    Faculty =  models.CharField(max_length=30)
-    Course =  models.CharField(max_length=30)
-    Preferred_First_Name = models.CharField(max_length=64)
-    Phone = models.IntegerField()
-    Mobile = models.IntegerField()
-    Best_contact_no = models.IntegerField()
+    email  = models.EmailField()
+    session_history = SessionListField()
+    #no_show_history = SessionListField()
+    faculty =  models.CharField(max_length=30)
+    course =  models.CharField(max_length=30)
+    preferred_first_name = models.CharField(max_length=64)
+    phone = models.IntegerField()
+    mobile = models.IntegerField()
+    best_contact_no = models.IntegerField()
     DOB = models.DateField()
-    Gender = models.CharField(max_length=24)
-    Degree = models.CharField(max_length=64)
-    Status = models.CharField(max_length=64)
-    First_language = models.CharField(max_length=32)
-    Country_of_origin = models.CharField(max_length=64)
-    Educational_Background = models.CharField(max_length=64)
+    gender = models.CharField(max_length=24)
+    degree = models.CharField(max_length=64)
+    status = models.CharField(max_length=64)
+    first_language = models.CharField(max_length=32)
+    country_of_origin = models.CharField(max_length=64)
+    educational_background = models.CharField(max_length=64)
+
+    def __str__(self):
+        return 'ID: {} - {}{}{}'.format(
+            self.staff_id,
+            self.first_name,
+            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name is not None else "",
+            self.last_name
+        )
 
 class StudentAccount():
+
     student_id = models.IntegerField()
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
-    Email  = models.EmailField()
-    # Session histories (Array of <Session>)
-    # No-show history
-    Faculty =  models.CharField(max_length=32)
-    Course =  models.CharField(max_length=64)
-    Preferred_First_Name = models.CharField(max_length=64)
-    Phone = models.IntegerField()
-    Mobile = models.IntegerField()
-    Best_contact_no = models.IntegerField()
+    email = models.EmailField()
+    session_history = SessionListField()
+    no_show_history = SessionListField()
+    faculty =  models.CharField(max_length=32)
+    course =  models.CharField(max_length=64)
+    preferred_first_name = models.CharField(max_length=64)
+    phone = models.IntegerField()
+    mobile = models.IntegerField()
+    best_contact_no = models.IntegerField()
     DOB = models.EmailField()
-    Gender = models.CharField(max_length=32)
-    Degree = models.CharField(max_length=64)
-    Status = models.CharField(max_length=64)
-    First_language = models.CharField(max_length=32)
-    Country_of_origin = models.CharField(max_length=30)
-    Educational_Background = models.CharField(max_length=30)
+    gender = models.CharField(max_length=32)
+    degree = models.CharField(max_length=64)
+    status = models.CharField(max_length=64)
+    first_language = models.CharField(max_length=32)
+    country_of_origin = models.CharField(max_length=30)
+    educational_background = models.CharField(max_length=30)
 
-
+    def __str__(self):
+        return 'ID: {} - {}{}{}'.format(
+            self.student_id,
+            self.first_name,
+            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name is not None else "",
+            self.last_name
+        )
 
 # class UserAccount(models.Model):
 #     user = models.ForeignKey(User)
