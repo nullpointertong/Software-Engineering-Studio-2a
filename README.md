@@ -3,12 +3,17 @@
 ## UTS HELPS Booking System
 
 **Maintainers:**
-Michelle Chen
+
 Nathan Luu
+
 Nic Moiso
+
 Richard Tong
+
 Aditya Verma
+
 The Duc Vu
+
 Alex Bell
 
 ## Dependencies
