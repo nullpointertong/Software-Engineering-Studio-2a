@@ -12,11 +12,13 @@
 </head>
 <body>
     {% include 'pages/layouts/navbar.html' %}
+    <div style="padding-left:10px">
     {% if user.is_authenticated %}
-      <li>Welcome, {{ user.get_username }}</li>  
+      <p>Welcome, {{ user.get_username }}</p>  
     {% else %}
-      <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+      <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>   
     {% endif %}
+    </div>
     {% block content %}{% endblock %}
 </body>
 </html>
