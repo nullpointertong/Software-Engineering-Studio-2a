@@ -17,25 +17,25 @@ def parse_time_strings(time_string):
         result_list.append(datetime(year=year, month=month, day=day, hour=hour, minute=minute, second=second))
     return result_list
 
-class SessionListField(models.Field):
-    '''Field for list of sessions. Accepts list of datetimes'''
+class DateListField(models.Field):
+    '''Field for multiple dates. Accepts list of datetimes'''
 
-    description = _g('String of session times')
+    description = _g('String of datetimes')
 
-    def __init__(self, sessions=[], *args, **kwargs):
-        self.sessions = sessions
+    def __init__(self, dates=[], *args, **kwargs):
+        self.dates = dates
         #self.max_length = 2048
         #kwargs['max_length'] = self.max_length 
         super().__init__(*args, **kwargs)
     
     def __str__(self):
-        return ','.join([x.strftime('%d-%m-%Y %H:%M:%S') for x in self.sessions])
+        return ','.join([x.strftime('%d-%m-%Y %H:%M:%S') for x in self.dates])
 
     def deconstruct(self):
         name, path, args, kwargs = super().deconstruct()
         # Must return arguments to pass to __init__ for reconstruction
-        if self.sessions != []:
-            kwargs['sessions'] = self.sessions
+        if self.dates != []:
+            kwargs['dates'] = self.dates
         #del kwargs['max_length']
         return name, path, args, kwargs
 
@@ -66,14 +66,16 @@ class SessionListField(models.Field):
         return self.get_prep_value(value)
     
 
-class Session():
+class Session(models.Model):
 
     session_ID = models.IntegerField(primary_key=True)
-    student_id = models.ForeignKey(
+    # One StudentAccount has many Sessions
+    student = models.ForeignKey(
         'StudentAccount',
         on_delete=models.CASCADE
     )
-    staff_id = models.ForeignKey(
+    # One StaffAccount has many Sessions
+    staff = models.ForeignKey(
         'StaffAccount',
         on_delete=models.CASCADE
     )
@@ -83,21 +85,44 @@ class Session():
     no_show = models.BooleanField()
 
     def __str__(self):
-        description = [
+        return "\n".join([
             "Session ID: {}".format(self.session_ID),
-            "Staff ID: {}".format(self.staff_id),
-            "Student ID: {}".format(self.student_id)
-        ]
-        return "\n".join(description)
+            "Staff: {}".format(self.staff),
+            "Student: {}".format(self.student)
+        ])
 
-class StaffAccount():
+class Workshop(models.Model):
+
+    workshop_ID = models.IntegerField(primary_key=True)
+    # One StaffAccount has many Workshops
+    staff = models.ForeignKey(
+        'StaffAccount',
+        on_delete=models.CASCADE
+    )
+    # Many StudentAccounts have many Workshops
+    students = models.ManyToManyField('StudentAccount')
+    max_students = models.PositiveIntegerField()
+    skill_set_name = models.CharField(max_length=64)
+    start_dates = DateListField()
+    end_dates = DateListField()
+    room = models.CharField(max_length=32)
+
+    def __str__(self):
+        return "\n".join([
+            "Workshop ID: {}".format(self.workshop_ID),
+            "Staff: {}".format(self.staff),
+            "Students: {}".format(self.students)
+        ])
+        
+
+class StaffAccount(models.Model):
 
     staff_id = models.PositiveIntegerField(primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email  = models.EmailField()
-    session_history = SessionListField()
-    #no_show_history = SessionListField()
+    session_history = DateListField()
+    #no_show_history = DateListField()
     faculty =  models.CharField(max_length=30)
     course =  models.CharField(max_length=30)
     preferred_first_name = models.CharField(max_length=64)
@@ -116,18 +141,18 @@ class StaffAccount():
         return 'ID: {} - {}{}{}'.format(
             self.staff_id,
             self.first_name,
-            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name is not None else "",
+            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else "",
             self.last_name
         )
 
-class StudentAccount():
+class StudentAccount(models.Model):
 
     student_id = models.IntegerField()
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField()
-    session_history = SessionListField()
-    no_show_history = SessionListField()
+    session_history = DateListField()
+    no_show_history = DateListField()
     faculty =  models.CharField(max_length=32)
     course =  models.CharField(max_length=64)
     preferred_first_name = models.CharField(max_length=64)
@@ -146,7 +171,7 @@ class StudentAccount():
         return 'ID: {} - {}{}{}'.format(
             self.student_id,
             self.first_name,
-            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name is not None else "",
+            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else "",
             self.last_name
         )
 
