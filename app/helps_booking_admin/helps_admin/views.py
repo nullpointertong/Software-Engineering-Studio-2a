@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout
@@ -9,7 +11,8 @@ def login_request(request):
     return render(request, 'registration/login.html', context)
 
 def sessions(request):
-    context = {'sessions_page': 'active'}
+    context = {'sessions_page': 'active', 'today': datetime.now().strftime('%Y-%m-%d'), 'min_hour': '9:00', 'max_hour': '17:00'}
+    
     return render(request, 'pages/layouts/sessions.html', context)
 
 def workshops(request):
