@@ -6,14 +6,16 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 def parse_time_strings(time_string):
-    '''Accepts a string and converts it into a list of datetimes'''
+    '''Accepts comma separated string of datetimes and converts it into a list of datetimes'''
     result_list = []
-    if len(time_string) != 19:
-        raise ValidationError(_g('Invalid date/time, please format as: "DD-MM-YYYY HH:MM:SS"'))
+    if time_string == "":
+        return None
     time_list = time_string.replace(' ','').split(',')
     for time_piece in time_list:
-        day, month, year = time_piece[:10].split('-')
-        hour, minute, second = time_piece[-8:].split(':')
+        if len(time_piece) != 18:
+            raise ValidationError(_g('Invalid date/time, please format as: "DD-MM-YYYY HH:MM:SS"'))
+        day, month, year = [int(x) for x in time_piece[:10].split('-')]
+        hour, minute, second = [int(x) for x in time_piece[-8:].split(':')]
         result_list.append(datetime(year=year, month=month, day=day, hour=hour, minute=minute, second=second))
     return result_list
 
@@ -126,9 +128,9 @@ class StaffAccount(models.Model):
     faculty =  models.CharField(max_length=30)
     course =  models.CharField(max_length=30)
     preferred_first_name = models.CharField(max_length=64)
-    phone = models.IntegerField()
-    mobile = models.IntegerField()
-    best_contact_no = models.IntegerField()
+    phone = models.CharField(max_length=12)
+    mobile = models.CharField(max_length=12)
+    best_contact_no = models.CharField(max_length=12)
     DOB = models.DateField()
     gender = models.CharField(max_length=24)
     degree = models.CharField(max_length=64)
@@ -141,13 +143,13 @@ class StaffAccount(models.Model):
         return 'ID: {} - {}{}{}'.format(
             self.staff_id,
             self.first_name,
-            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else "",
+            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else " ",
             self.last_name
         )
 
 class StudentAccount(models.Model):
 
-    student_id = models.IntegerField()
+    student_id = models.PositiveIntegerField(primary_key=True)
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField()
@@ -156,9 +158,9 @@ class StudentAccount(models.Model):
     faculty =  models.CharField(max_length=32)
     course =  models.CharField(max_length=64)
     preferred_first_name = models.CharField(max_length=64)
-    phone = models.IntegerField()
-    mobile = models.IntegerField()
-    best_contact_no = models.IntegerField()
+    phone = models.CharField(max_length=12)
+    mobile = models.CharField(max_length=12)
+    best_contact_no = models.CharField(max_length=12)
     DOB = models.EmailField()
     gender = models.CharField(max_length=32)
     degree = models.CharField(max_length=64)
@@ -171,7 +173,7 @@ class StudentAccount(models.Model):
         return 'ID: {} - {}{}{}'.format(
             self.student_id,
             self.first_name,
-            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else "",
+            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else " ",
             self.last_name
         )
 
