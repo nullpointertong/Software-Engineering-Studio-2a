@@ -1,5 +1,97 @@
-{% extends "pages/layouts/base.html" %}
-
-{% block content %}
+<p>{% extends "pages/layouts/base.html" %} {% block content %}</p>
 <h1>Profile page</h1>
-{% endblock %}
+<br />
+<p>This page displays your profile. Please update it whenever necessary (especially your contact details).
+<br />Questions marked with an asterisk (*) are compulsory. </p>
+<br />
+
+
+<p>Student Name:&nbsp;
+    <input type="text" value="" />
+    &nbsp;
+    Preferred Name:&nbsp;
+    <input type="date" value="" /></p>
+<p>Faculty:&nbsp;
+    <select>
+    <option value="Biologyisn'treal">Biologyisn'treal</option>
+    <option value="FEIT">FEIT</option>
+    <option value="A">A</option>
+    <option value="jeff">jeff</option>
+  </select>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    Course:&nbsp;
+    <input type="date" value="" /></p>
+<p>Email:&nbsp;<input type="date" value="" />
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    Home Phone:&nbsp;
+    <input type="date" value="" /></p>
+<p>Mobile:&nbsp;<input type="date" value="" />
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    Best Contact no*:<input type="date" value="" /></p>
+<p>DOB:&nbsp;
+    <input type="date" value="" />
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    Gender:&nbsp;
+    <select>
+    <option value="English">English</option>
+    <option value="adityapls">adityapls</option>
+    <option value="cheff">cheff</option>
+    <option value="jeff">jeff</option>
+    </select>
+    </p>
+<p>Degree:&nbsp;
+    <select>
+    <option value="Undergraduate">Undergraduate</option>
+    <option value="Postgraduate">Postgraduate</option>
+    </select>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    Degree*:&nbsp;
+    <input type="date" value="" /></p>
+<p>Year*:&nbsp;
+        <select>
+                <option value="Year 1">Year 1</option>
+                <option value="Year 2">Year 2</option>
+                <option value="Year 3">Year 3</option>
+                <option value="Year 4">Year 4</option>
+                <option value="Year 5">Year 5</option>
+                <option value="Year 5+">Year 5+</option>
+                </select>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+    Status:&nbsp;
+    <select>
+            <option value="Permanent">Permanent</option>
+            <option value="International">International</option>
+    </select>
+</p>
+<p>First Language:&nbsp;
+    <select>
+    <option value="English">English</option>
+    <option value="adityapls">adityapls</option>
+    <option value="cheff">cheff</option>
+    <option value="jeff">jeff</option>
+    </select>
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    Country of Origin:
+    &nbsp;
+    <select>
+    <option value="Australia">Australia</option>
+    <option value="adityapls">adityapls</option>
+    <option value="China">China</option>
+    <option value="jeff">jeff</option>
+    </select>&nbsp;
+
+</p>
+
+<br/>
+<input type="Submit" name="btnUpdate" value="Update" id="btnUpdate">
+<br/>
+<br/>
+<p>When you submit your writing to us, we would like to use it (after removing any of your personal details) for educational or research purposes. 
+    <br/>Is this okay with you?
+        Yes <input type="Radio" name="privacy_approval" value="1" checked="">
+        No <input type="Radio" name="privacy_approval" value="0"> <br>
+    <br/>UTS  is committed to privacy. For more information, please visit <a href="http://www.uts.edu.au/about-uts/uts-governance/privacy" target="_blank">Privacy at UTS</a>.
+</p>
+
+
+<p>{% endblock %}</p>
