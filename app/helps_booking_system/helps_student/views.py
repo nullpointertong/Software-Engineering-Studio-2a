@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout
+from .models import StudentAccount
 
 def login_request(request):
     context = {'login_request': 'active'}
@@ -33,3 +34,17 @@ def exit(request):
 def redirect_view(request):
     response = redirect('/accounts/login/')
     return response
+
+
+# def some_name(request):
+#     foo_instance = Foo.objects.create(name='test')
+#     return render(request, 'some_name.html.html')
+
+# def send(request): 
+#     publisher_instance = Publisher.objects.create(name='tux') 
+#     return HttpResponse("done")
+
+# fruit = Fruit.objects.create(name='Apple')
+# >>> fruit.name = 'Pear'
+# >>> fruit.save()
+# >>> Fruit.objects.values_list('name', flat=True)

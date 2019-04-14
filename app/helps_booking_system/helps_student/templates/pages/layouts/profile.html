@@ -1,3 +1,4 @@
+
 <p>{% extends "pages/layouts/base.html" %} {% block content %}</p>
 <h1>Profile page</h1>
 <br />
@@ -5,12 +6,21 @@
 <br />Questions marked with an asterisk (*) are compulsory. </p>
 <br />
 
+<style> 
+.topright {
+  position: absolute;
+  top: 277px;
+  right: 400px;
+  font-size: 18px;
+}
+</style>
 
-<p>Student Name:&nbsp;
+<p align="centre">Student Name:&nbsp;
     <input type="text" value="" />
-    &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
     Preferred Name:&nbsp;
-    <input type="date" value="" /></p>
+    <input type="text" value="" /></p>
+
 <p>Faculty:&nbsp;
     <select>
     <option value="Biologyisn'treal">Biologyisn'treal</option>
@@ -18,19 +28,19 @@
     <option value="A">A</option>
     <option value="jeff">jeff</option>
   </select>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
     Course:&nbsp;
-    <input type="date" value="" /></p>
-<p>Email:&nbsp;<input type="date" value="" />
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    <input type="text" value="" /></p>
+<p>Email:&nbsp;<input type="email" value="" />
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;
     Home Phone:&nbsp;
-    <input type="date" value="" /></p>
-<p>Mobile:&nbsp;<input type="date" value="" />
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-    Best Contact no*:<input type="date" value="" /></p>
+    <input type="tel" value="" /></p>
+<p>Mobile:&nbsp;<input type="tel" value="" />
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; 
+    Best Contact no*:<input type="tel" value="" /></p>
 <p>DOB:&nbsp;
     <input type="date" value="" />
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;
     Gender:&nbsp;
     <select>
     <option value="English">English</option>
@@ -44,10 +54,8 @@
     <option value="Undergraduate">Undergraduate</option>
     <option value="Postgraduate">Postgraduate</option>
     </select>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-    Degree*:&nbsp;
-    <input type="date" value="" /></p>
-<p>Year*:&nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;
+    Year*:&nbsp;
         <select>
                 <option value="Year 1">Year 1</option>
                 <option value="Year 2">Year 2</option>
@@ -56,7 +64,8 @@
                 <option value="Year 5">Year 5</option>
                 <option value="Year 5+">Year 5+</option>
                 </select>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+
+<p>
     Status:&nbsp;
     <select>
             <option value="Permanent">Permanent</option>
@@ -64,23 +73,346 @@
     </select>
 </p>
 <p>First Language:&nbsp;
-    <select>
-    <option value="English">English</option>
-    <option value="adityapls">adityapls</option>
-    <option value="cheff">cheff</option>
-    <option value="jeff">jeff</option>
-    </select>
+    <select name="selLang">
+            <option value=""></option>
+            <option value="Abkhazian">Abkhazian</option>
+            <option value="Afar">Afar</option>
+            <option value="Afrikaans">Afrikaans</option>
+            <option value="Albanian">Albanian</option>
+            <option value="Amharic">Amharic</option>
+            <option value="Arabic">Arabic</option>
+            <option value="Armenian">Armenian</option>
+            <option value="Assamese">Assamese</option>
+            <option value="Aymara">Aymara</option>
+            <option value="Azerbaijani">Azerbaijani</option>
+            <option value="Bashkir">Bashkir</option>
+            <option value="Basque">Basque</option>
+            <option value="Belarusian">Belarusian</option>
+            <option value="Bengali">Bengali</option>
+            <option value="Bhutani">Bhutani</option>
+            <option value="Bihari">Bihari</option>
+            <option value="Bislama">Bislama</option>
+            <option value="Bosnian">Bosnian</option>
+            <option value="Breton">Breton</option>
+            <option value="Bulgarian">Bulgarian</option>
+            <option value="Burmese">Burmese</option>
+            <option value="Catalan">Catalan</option>
+            <option value="Chinese (Cantonese)">Chinese (Cantonese)</option>
+            <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
+            <option value="Chinese (other)">Chinese (other)</option>
+            <option value="Corsican">Corsican</option>
+            <option value="Croatian">Croatian</option>
+            <option value="Czech">Czech</option>
+            <option value="Danish">Danish</option>
+            <option value="Dhivehi">Dhivehi</option>
+            <option value="Dutch">Dutch</option>
+            <option value="English" selected="">English</option>
+            <option value="Esperanto">Esperanto</option>
+            <option value="Estonian">Estonian</option>
+            <option value="Faroese">Faroese</option>            
+            <option value="Farsi">Farsi</option>
+            <option value="Fiji">Fiji</option>
+            <option value="Finnish">Finnish</option>
+            <option value="French">French</option>
+            <option value="Frisian">Frisian</option>
+            <option value="Galician">Galician</option>
+            <option value="Ganda">Ganda</option>
+            <option value="Georgian">Georgian</option>
+            <option value="German">German</option>
+            <option value="Greek">Greek</option>
+            <option value="Greenlandic">Greenlandic</option>
+            <option value="Guarani">Guarani</option>
+            <option value="Gujarati">Gujarati</option>
+            <option value="Haitian Creole">Haitian Creole</option>
+            <option value="Hausa">Hausa</option>
+            <option value="Hebrew">Hebrew</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Hungarian">Hungarian</option>
+            <option value="Icelandic">Icelandic</option>
+            <option value="Indonesian">Indonesian</option>
+            <option value="Inuktitut">Inuktitut</option>
+            <option value="Inupiak">Inupiak</option>
+            <option value="Irish">Irish</option>
+            <option value="Italian">Italian</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Javanese">Javanese</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Kashmiri">Kashmiri</option>
+            <option value="Kazakh">Kazakh</option>
+            <option value="Khmer">Khmer</option>
+            <option value="Kinyarwanda">Kinyarwanda</option>
+            <option value="Kirundi">Kirundi</option>
+            <option value="Korean">Korean</option>
+            <option value="Kurdish">Kurdish</option>
+            <option value="Kyrgyz">Kyrgyz</option>
+            <option value="Laothian">Laothian</option>
+            <option value="Latin">Latin</option>
+            <option value="Latvian">Latvian</option>
+            <option value="Lingala">Lingala</option>
+            <option value="Lithuanian">Lithuanian</option>
+            <option value="Macedonian">Macedonian</option>
+            <option value="Malagasy">Malagasy</option>
+            <option value="Malay">Malay</option>
+            <option value="Malayalam">Malayalam</option>
+            <option value="Maltese">Maltese</option>
+            <option value="Maori">Maori</option>
+            <option value="Marathi">Marathi</option>
+            <option value="Moldavian">Moldavian</option>
+            <option value="Mongolian">Mongolian</option>
+            <option value="Nauru">Nauru</option>
+            <option value="Nepali">Nepali</option>
+            <option value="Norwegian (Bokmal)">Norwegian (Bokmal)</option>
+            <option value="Norwegian (Nynorsk)">Norwegian (Nynorsk)</option>
+            <option value="Oriya">Oriya</option>
+            <option value="Oromo">Oromo</option>
+            <option value="Pashto/Pushto">Pashto/Pushto</option>
+            <option value="Polish">Polish</option>
+            <option value="Portuguese (Brazil)">Portuguese (Brazil)</option>
+            <option value="Portuguese">Portuguese (Portugal)</option>
+            <option value="Punjabi">Punjabi</option>
+            <option value="Quechua">Quechua</option>
+            <option value="Rhaeto-Romance">Rhaeto-Romance</option>
+            <option value="Romanian">Romanian</option>
+            <option value="Russian">Russian</option>
+            <option value="Samoan">Samoan</option>
+            <option value="Sangho">Sangho</option>
+            <option value="Sanskrit">Sanskrit</option>
+            <option value="Scots Gaelic">Scots Gaelic</option>
+            <option value="Serbian">Serbian</option>
+            <option value="Serbo-Croatian">Serbo-Croatian</option>
+            <option value="Sesotho">Sesotho</option>
+            <option value="Setswana">Setswana</option>
+            <option value="Shona">Shona</option>
+            <option value="Sindhi">Sindhi</option>
+            <option value="Sinhalese">Sinhalese</option>
+            <option value="Siswati">Siswati</option>
+            <option value="Slovak">Slovak</option>
+            <option value="Slovenian">Slovenian</option>
+            <option value="Somali">Somali</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Sundanese">Sundanese</option>
+            <option value="Swahili">Swahili</option>
+            <option value="Swedish">Swedish</option>
+            <option value="Tagalog">Tagalog</option>
+            <option value="Tajik">Tajik</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Tatar">Tatar</option>
+            <option value="Telugu">Telugu</option>
+            <option value="Thai">Thai</option>
+            <option value="Tibetan">Tibetan</option>
+            <option value="Tigrinya">Tigrinya</option>
+            <option value="Tonga">Tonga</option>
+            <option value="Tsonga">Tsonga</option>
+            <option value="Turkish">Turkish</option>
+            <option value="Turkmen">Turkmen</option>
+            <option value="Twi">Twi</option>
+            <option value="Uighur">Uighur</option>
+            <option value="Ukrainian">Ukrainian</option>
+            <option value="Urdu">Urdu</option>
+            <option value="Uzbek">Uzbek</option>
+            <option value="Vietnamese">Vietnamese</option>
+            <option value="Volapuk">Volapuk</option>
+            <option value="Welsh">Welsh</option>
+            <option value="Wolof">Wolof</option>
+            <option value="Xhosa">Xhosa</option>
+            <option value="Yiddish">Yiddish</option>
+            <option value="Yiddish">Yiddish</option>
+            <option value="Zhuang">Zhuang</option>
+            <option value="Zulu">Zulu</option>
+            </select>
+    
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-    Country of Origin:
+    Country of Origin*:
     &nbsp;
-    <select>
-    <option value="Australia">Australia</option>
-    <option value="adityapls">adityapls</option>
-    <option value="China">China</option>
-    <option value="jeff">jeff</option>
-    </select>&nbsp;
-
+    <select name="selLang">
+            <option value=""></option>
+            <option value="Abkhazian">Abkhazian</option>
+            <option value="Afar">Afar</option>
+            <option value="Afrikaans">Afrikaans</option>
+            <option value="Albanian">Albanian</option>
+            <option value="Amharic">Amharic</option>
+            <option value="Arabic">Arabic</option>
+            <option value="Armenian">Armenian</option>
+            <option value="Assamese">Assamese</option>
+            <option value="Aymara">Aymara</option>
+            <option value="Azerbaijani">Azerbaijani</option>
+            <option value="Bashkir">Bashkir</option>
+            <option value="Basque">Basque</option>
+            <option value="Belarusian">Belarusian</option>
+            <option value="Bengali">Bengali</option>
+            <option value="Bhutani">Bhutani</option>
+            <option value="Bihari">Bihari</option>
+            <option value="Bislama">Bislama</option>
+            <option value="Bosnian">Bosnian</option>
+            <option value="Breton">Breton</option>
+            <option value="Bulgarian">Bulgarian</option>
+            <option value="Burmese">Burmese</option>
+            <option value="Catalan">Catalan</option>
+            <option value="Chinese (Cantonese)">Chinese (Cantonese)</option>
+            <option value="Chinese (Mandarin)">Chinese (Mandarin)</option>
+            <option value="Chinese (other)">Chinese (other)</option>
+            <option value="Corsican">Corsican</option>
+            <option value="Croatian">Croatian</option>
+            <option value="Czech">Czech</option>
+            <option value="Danish">Danish</option>
+            <option value="Dhivehi">Dhivehi</option>
+            <option value="Dutch">Dutch</option>
+            <option value="English" selected="">English</option>
+            <option value="Esperanto">Esperanto</option>
+            <option value="Estonian">Estonian</option>
+            <option value="Faroese">Faroese</option>            
+            <option value="Farsi">Farsi</option>
+            <option value="Fiji">Fiji</option>
+            <option value="Finnish">Finnish</option>
+            <option value="French">French</option>
+            <option value="Frisian">Frisian</option>
+            <option value="Galician">Galician</option>
+            <option value="Ganda">Ganda</option>
+            <option value="Georgian">Georgian</option>
+            <option value="German">German</option>
+            <option value="Greek">Greek</option>
+            <option value="Greenlandic">Greenlandic</option>
+            <option value="Guarani">Guarani</option>
+            <option value="Gujarati">Gujarati</option>
+            <option value="Haitian Creole">Haitian Creole</option>
+            <option value="Hausa">Hausa</option>
+            <option value="Hebrew">Hebrew</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Hungarian">Hungarian</option>
+            <option value="Icelandic">Icelandic</option>
+            <option value="Indonesian">Indonesian</option>
+            <option value="Inuktitut">Inuktitut</option>
+            <option value="Inupiak">Inupiak</option>
+            <option value="Irish">Irish</option>
+            <option value="Italian">Italian</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Javanese">Javanese</option>
+            <option value="Kannada">Kannada</option>
+            <option value="Kashmiri">Kashmiri</option>
+            <option value="Kazakh">Kazakh</option>
+            <option value="Khmer">Khmer</option>
+            <option value="Kinyarwanda">Kinyarwanda</option>
+            <option value="Kirundi">Kirundi</option>
+            <option value="Korean">Korean</option>
+            <option value="Kurdish">Kurdish</option>
+            <option value="Kyrgyz">Kyrgyz</option>
+            <option value="Laothian">Laothian</option>
+            <option value="Latin">Latin</option>
+            <option value="Latvian">Latvian</option>
+            <option value="Lingala">Lingala</option>
+            <option value="Lithuanian">Lithuanian</option>
+            <option value="Macedonian">Macedonian</option>
+            <option value="Malagasy">Malagasy</option>
+            <option value="Malay">Malay</option>
+            <option value="Malayalam">Malayalam</option>
+            <option value="Maltese">Maltese</option>
+            <option value="Maori">Maori</option>
+            <option value="Marathi">Marathi</option>
+            <option value="Moldavian">Moldavian</option>
+            <option value="Mongolian">Mongolian</option>
+            <option value="Nauru">Nauru</option>
+            <option value="Nepali">Nepali</option>
+            <option value="Norwegian (Bokmal)">Norwegian (Bokmal)</option>
+            <option value="Norwegian (Nynorsk)">Norwegian (Nynorsk)</option>
+            <option value="Oriya">Oriya</option>
+            <option value="Oromo">Oromo</option>
+            <option value="Pashto/Pushto">Pashto/Pushto</option>
+            <option value="Polish">Polish</option>
+            <option value="Portuguese (Brazil)">Portuguese (Brazil)</option>
+            <option value="Portuguese">Portuguese (Portugal)</option>
+            <option value="Punjabi">Punjabi</option>
+            <option value="Quechua">Quechua</option>
+            <option value="Rhaeto-Romance">Rhaeto-Romance</option>
+            <option value="Romanian">Romanian</option>
+            <option value="Russian">Russian</option>
+            <option value="Samoan">Samoan</option>
+            <option value="Sangho">Sangho</option>
+            <option value="Sanskrit">Sanskrit</option>
+            <option value="Scots Gaelic">Scots Gaelic</option>
+            <option value="Serbian">Serbian</option>
+            <option value="Serbo-Croatian">Serbo-Croatian</option>
+            <option value="Sesotho">Sesotho</option>
+            <option value="Setswana">Setswana</option>
+            <option value="Shona">Shona</option>
+            <option value="Sindhi">Sindhi</option>
+            <option value="Sinhalese">Sinhalese</option>
+            <option value="Siswati">Siswati</option>
+            <option value="Slovak">Slovak</option>
+            <option value="Slovenian">Slovenian</option>
+            <option value="Somali">Somali</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Sundanese">Sundanese</option>
+            <option value="Swahili">Swahili</option>
+            <option value="Swedish">Swedish</option>
+            <option value="Tagalog">Tagalog</option>
+            <option value="Tajik">Tajik</option>
+            <option value="Tamil">Tamil</option>
+            <option value="Tatar">Tatar</option>
+            <option value="Telugu">Telugu</option>
+            <option value="Thai">Thai</option>
+            <option value="Tibetan">Tibetan</option>
+            <option value="Tigrinya">Tigrinya</option>
+            <option value="Tonga">Tonga</option>
+            <option value="Tsonga">Tsonga</option>
+            <option value="Turkish">Turkish</option>
+            <option value="Turkmen">Turkmen</option>
+            <option value="Twi">Twi</option>
+            <option value="Uighur">Uighur</option>
+            <option value="Ukrainian">Ukrainian</option>
+            <option value="Urdu">Urdu</option>
+            <option value="Uzbek">Uzbek</option>
+            <option value="Vietnamese">Vietnamese</option>
+            <option value="Volapuk">Volapuk</option>
+            <option value="Welsh">Welsh</option>
+            <option value="Wolof">Wolof</option>
+            <option value="Xhosa">Xhosa</option>
+            <option value="Yiddish">Yiddish</option>
+            <option value="Yiddish">Yiddish</option>
+            <option value="Zhuang">Zhuang</option>
+            <option value="Zulu">Zulu</option>
+            </select>&nbsp;
 </p>
+
+<div class="topright">
+        <p>Educational Backgound:</p>
+            <table border="0">
+            <tbody><tr>
+                <td><input type="Checkbox" id="ckbHSC" name="ckbHSC" value="1" onclick="toggle('ckbHSC', 'txtHSC_mark')" checked="">HSC</td>
+                <td id="txtHSC_mark">Mark <input type="Text" name="txtHSC_mark" value="" size="5"></td>
+            </tr>
+            <tr>
+                <td><input type="Checkbox" id="ckbIELTS" name="ckbIELTS" value="1" onclick="toggle('ckbIELTS', 'txtIELTS_mark')">IELTS</td>
+                <td id="txtIELTS_mark" style="display:none;">Mark <input type="Text" name="txtIELTS_mark" value="" size="5"></td>
+            </tr>
+            <tr>
+                <td><input type="Checkbox" id="ckbTOEFL" name="ckbTOEFL" value="1" onclick="toggle('ckbTOEFL', 'txtTOEFL_mark')">TOEFL</td>
+                <td id="txtTOEFL_mark" style="display:none;">Mark <input type="Text" name="txtTOEFL_mark" value="" size="5"></td>
+            </tr>
+            <tr>
+                <td><input type="Checkbox" id="ckbTAFE" name="ckbTAFE" value="1" onclick="toggle('ckbTAFE', 'txtTAFE_mark')">TAFE</td>
+                <td id="txtTAFE_mark" style="display:none;">Mark <input type="Text" name="txtTAFE_mark" value="" size="5"></td>
+            </tr>
+            <tr>
+                <td><input type="Checkbox" id="ckbCULT" name="ckbCULT" value="1" onclick="toggle('ckbCULT', 'txtCULT_mark')">CULT</td>
+                <td id="txtCULT_mark" style="display:none;">Mark <input type="Text" name="txtCULT_mark" value="" size="5"></td>
+            </tr>
+            <tr>
+                <td><input type="Checkbox" id="ckbInsearchDEEP" name="ckbInsearchDEEP" value="1" onclick="toggle('ckbInsearchDEEP', 'txtInsearchDEEP_mark')">Insearch DEEP</td>
+                <td id="txtInsearchDEEP_mark" style="display:none;">Mark <input type="Text" name="txtInsearchDEEP_mark" value="" size="5"></td>
+            </tr>
+            <tr>
+                <td><input type="Checkbox" id="ckbInsearchDiploma" name="ckbInsearchDiploma" value="1" onclick="toggle('ckbInsearchDiploma', 'txtInsearchDiploma_mark')">Insearch Diploma</td>
+                <td id="txtInsearchDiploma_mark" style="display:none;">Mark <input type="Text" name="txtInsearchDiploma_mark" value="" size="5"></td>
+            </tr>
+            <tr>
+                <td><input type="Checkbox" id="ckbfoundationcourse" name="ckbfoundationcourse" value="1" onclick="toggle('ckbfoundationcourse', 'txtfoundationcourse_mark')">Foundation Course</td>
+                <td id="txtfoundationcourse_mark" style="display:none;">Mark <input type="Text" name="txtfoundationcourse_mark" value="" size="5"></td>
+            </tr>
+            </tbody></table>	
+            <p>Other:<br>
+        <textarea name="txtBackground" cols="30" rows="5" wrap="soft"></textarea></p> 
+    </div>
+
 
 <br/>
 <input type="Submit" name="btnUpdate" value="Update" id="btnUpdate">
@@ -92,6 +424,8 @@
         No <input type="Radio" name="privacy_approval" value="0"> <br>
     <br/>UTS  is committed to privacy. For more information, please visit <a href="http://www.uts.edu.au/about-uts/uts-governance/privacy" target="_blank">Privacy at UTS</a>.
 </p>
+
+
 
 
 <p>{% endblock %}</p>
