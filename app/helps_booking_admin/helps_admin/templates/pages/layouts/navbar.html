@@ -5,17 +5,29 @@
         <li class="nav-item {{ sessions_page }}">
           <a class="nav-link" href="{% url 'sessions' %}">Sessions</a>
         </li>
-        <li class="nav-item {{ advisors_page }}">
-          <a class="nav-link" href="{% url 'advisors' %}">Advisors</a>
-        </li>
         <li class="nav-item {{ workshops_page }}">
           <a class="nav-link" href="{% url 'workshops' %}">Workshops</a>
+        </li>
+        <li class="nav-item {{ advisors_page }}">
+          <a class="nav-link" href="{% url 'advisors' %}">Advisors</a>
         </li>
         <li class="nav-item {{ students_page }}">
           <a class="nav-link" href="{% url 'students' %}">Students</a>
         </li>
         <li class="nav-item {{ waiting_list_page }}">
           <a class="nav-link" href="{% url 'waiting_list' %}">Waiting List</a>
+        </li>
+        <li class="nav-item {{ reports_page }}">
+          <a class="nav-link" href="{% url 'reports' %}">Reports</a>
+        </li>
+        <li class="nav-item {{ email_page }}">
+          <a class="nav-link" href="{% url 'email' %}">Email</a>
+        </li>
+        <li class="nav-item {{ room_page }}">
+          <a class="nav-link" href="{% url 'room' %}">Room</a>
+        </li>
+        <li class="nav-item {{ message_page }}">
+          <a class="nav-link" href="{% url 'message' %}">Message</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'exit' %}">Exit</a>

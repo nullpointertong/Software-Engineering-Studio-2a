@@ -47,9 +47,9 @@ def room(request):
     context = {'room_page': 'active'}
     return render(request, 'pages/layouts/room.html', context)
 
-def messages(request):
-    context = {'messages_page': 'active'}
-    return render(request, 'pages/layouts/messages.html', context)
+def message(request):
+    context = {'message_page': 'active'}
+    return render(request, 'pages/layouts/message.html', context)
 
 def exit(request):
     logout(request)
