@@ -15,14 +15,21 @@
 }
 </style>
 
+<!-- CSS Posiitioning Code -->
+
+<form method = "POST" action = "/accounts/submit_profile/">
+
+    {%  csrf_token %}
+    {{form.p}}
+
 <p align="centre">Student Name:&nbsp;
-    <input type="text" value="" />
+    <input type="text" value="" name = "student_name"/>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
     Preferred Name:&nbsp;
-    <input type="text" value="" /></p>
+    <input type="text" value="" name = "student_preferred_name" /></p>
 
 <p>Faculty:&nbsp;
-    <select>
+    <select name = "student_faculty">
     <option value="Biologyisn'treal">Biologyisn'treal</option>
     <option value="FEIT">FEIT</option>
     <option value="A">A</option>
@@ -30,19 +37,20 @@
   </select>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
     Course:&nbsp;
-    <input type="text" value="" /></p>
-<p>Email:&nbsp;<input type="email" value="" />
+    <input type="text" value="" name = "student_course"/></p>
+<p>Email:&nbsp;<input type="email" value="" name = "student_email"/>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;
     Home Phone:&nbsp;
-    <input type="tel" value="" /></p>
-<p>Mobile:&nbsp;<input type="tel" value="" />
+    <input type="tel" value="" name = "student_home_phone"/></p>
+<p>Mobile:&nbsp;
+    <input type="tel" value="" name = "student_mobile" />
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; 
-    Best Contact no*:<input type="tel" value="" /></p>
+    Best Contact no*:<input type="tel" value="" name = "student_best_contactno"/></p>
 <p>DOB:&nbsp;
-    <input type="date" value="" />
+    <input type="date" value="" name = "student_DOB"/>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;
     Gender:&nbsp;
-    <select>
+    <select name = "student_gender">
     <option value="English">English</option>
     <option value="adityapls">adityapls</option>
     <option value="cheff">cheff</option>
@@ -50,30 +58,32 @@
     </select>
     </p>
 <p>Degree:&nbsp;
-    <select>
+    <select name = "student_degree">
     <option value="Undergraduate">Undergraduate</option>
     <option value="Postgraduate">Postgraduate</option>
     </select>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;
     Year*:&nbsp;
-        <select>
+    <select name = "student_year">
                 <option value="Year 1">Year 1</option>
                 <option value="Year 2">Year 2</option>
                 <option value="Year 3">Year 3</option>
                 <option value="Year 4">Year 4</option>
                 <option value="Year 5">Year 5</option>
                 <option value="Year 5+">Year 5+</option>
-                </select>
+    </select>
 
 <p>
     Status:&nbsp;
-    <select>
+    <select name = "student_status">
             <option value="Permanent">Permanent</option>
             <option value="International">International</option>
     </select>
+
+    <input type="text" value="" name = "student_preferred_name" /></p>
 </p>
 <p>First Language:&nbsp;
-    <select name="selLang">
+    <select name="student_language">
             <option value=""></option>
             <option value="Abkhazian">Abkhazian</option>
             <option value="Afar">Afar</option>
@@ -219,12 +229,12 @@
             <option value="Yiddish">Yiddish</option>
             <option value="Zhuang">Zhuang</option>
             <option value="Zulu">Zulu</option>
-            </select>
+    </select>
     
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
     Country of Origin*:
     &nbsp;
-    <select name="selLang">
+    <select name="student_country">
             <option value=""></option>
             <option value="Abkhazian">Abkhazian</option>
             <option value="Afar">Afar</option>
@@ -370,7 +380,7 @@
             <option value="Yiddish">Yiddish</option>
             <option value="Zhuang">Zhuang</option>
             <option value="Zulu">Zulu</option>
-            </select>&nbsp;
+    </select>&nbsp;
 </p>
 
 <div class="topright">
@@ -425,6 +435,7 @@
     <br/>UTS  is committed to privacy. For more information, please visit <a href="http://www.uts.edu.au/about-uts/uts-governance/privacy" target="_blank">Privacy at UTS</a>.
 </p>
 
+</form> 
 
 
 
