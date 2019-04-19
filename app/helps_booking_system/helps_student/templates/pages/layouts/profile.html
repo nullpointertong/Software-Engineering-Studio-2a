@@ -22,11 +22,16 @@
     {%  csrf_token %}
     {{form.p}}
 
-<p align="centre">Student Name:&nbsp;
+<p align="centre">
+    Student Name:&nbsp;
     <input type="text" value="" name = "student_name"/>
     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
     Preferred Name:&nbsp;
     <input type="text" value="" name = "student_preferred_name" /></p>
+
+<p>Student ID:&nbsp;
+    <input type="text" value="" name = "student_id"/>
+</p>
 
 <p>Faculty:&nbsp;
     <select name = "student_faculty">

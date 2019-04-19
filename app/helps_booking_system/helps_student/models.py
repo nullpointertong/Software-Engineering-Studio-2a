@@ -70,7 +70,7 @@ class DateListField(models.Field):
 
 class Session(models.Model):
 
-    session_ID = models.IntegerField(primary_key=True)
+    session_ID = models.IntegerField(primary_key=True, unique=True)
     # One StudentAccount has many Sessions
     student = models.ForeignKey(
         'StudentAccount',
@@ -95,7 +95,7 @@ class Session(models.Model):
 
 class Workshop(models.Model):
 
-    workshop_ID = models.IntegerField(primary_key=True)
+    workshop_ID = models.IntegerField(primary_key=True, unique=True)
     # One StaffAccount has many Workshops
     staff = models.ForeignKey(
         'StaffAccount',
@@ -119,7 +119,7 @@ class Workshop(models.Model):
 
 class StaffAccount(models.Model):
 
-    staff_id = models.PositiveIntegerField(primary_key=True)
+    staff_id = models.PositiveIntegerField(primary_key=True, unique=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email  = models.EmailField()
@@ -149,7 +149,7 @@ class StaffAccount(models.Model):
 
 class StudentAccount(models.Model):
 
-    student_id = models.PositiveIntegerField(primary_key=True)
+    student_id = models.PositiveIntegerField(primary_key=True, unique=True)
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField()

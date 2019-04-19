@@ -15,7 +15,8 @@ def profile(request):
 def submit_profile(request):
     print("DEBUG FORM ADDED")
     #Debug message
-    #SQL Query to retrieve current Student ID
+    #SQL Query to retrieve current Student ID - temp field:
+    student_id = request.POST["student_id"]
     #Retrieve Information from HTML
     student_name = request.POST["student_name"]
     student_preferred_name = request.POST["student_preferred_name"]
@@ -35,21 +36,22 @@ def submit_profile(request):
     #student_name = request.POST["student_name"]
     student_account = StudentAccount(
         #Piping Infomration into Model
-    first_name = student_name
-    ,last_name = student_name
-    ,email = student_email
-    ,faculty =  student_faculty
-    ,course =  student_course
-    ,preferred_first_name = student_preferred_name
-    ,phone = student_home_phone
-    ,mobile = student_mobile
-    ,best_contact_no = student_best_contactno
-    ,DOB = student_DOB
-    ,gender = student_gender
-    ,degree = student_degree
-    ,status = student_status
-    ,first_language = student_language
-    ,country_of_origin = student_country
+        student_id = student_id,
+        first_name = student_name,
+        last_name = student_name,
+        email = student_email,
+        faculty =  student_faculty,
+        course =  student_course,
+        preferred_first_name = student_preferred_name,
+        phone = student_home_phone,
+        mobile = student_mobile,
+        best_contact_no = student_best_contactno,
+        DOB = student_DOB,
+        gender = student_gender,
+        degree = student_degree,
+        status = student_status,
+        first_language = student_language,
+        country_of_origin = student_country
 
     # Needs to be made into an array educational_background = models.CharField(max_length=30)
     )
