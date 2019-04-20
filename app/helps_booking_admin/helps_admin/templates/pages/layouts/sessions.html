@@ -22,6 +22,8 @@
     {% block content %}
 
     <div style="margin-left: 10px;margin-bottom: 10px">
+        {% load static %}   
+        <img src="{% static "trophy.png" %}" alt="My image">
         <h1>Book a Session</h1>
         <div style="display:inline-block;">
             <p>Date: </p>
