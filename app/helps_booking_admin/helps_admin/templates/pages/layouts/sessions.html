@@ -41,7 +41,7 @@
     <div style="display:inline-block;margin-left:10px">
             
         <p>Student</p>
-        <form id="txtsearch" method="POST" class="form-control" action="{% url 'search' %}">
+        <form id="txtsearch" method="POST" class="form-control" action="{% url 'sessions' %}">
                 {% csrf_token %}
                 <input type="text" id="studentIDSearch" name="studentID">
                 <!-- <button type="submit">Submit</button> -->
