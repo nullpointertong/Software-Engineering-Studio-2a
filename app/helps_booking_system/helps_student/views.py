@@ -18,8 +18,10 @@ def submit_profile(request):
     #SQL Query to retrieve current Student ID - temp field:
     student_id = request.POST["student_id"]
     #Retrieve Information from HTML
-    student_name = request.POST["student_name"]
-    student_preferred_name = request.POST["student_preferred_name"]
+    student_first_name = request.POST["student_first_name"]
+    student_last_name = request.POST["student_last_name"]
+    student_preferred_first_name = request.POST["student_preferred_first_name"]
+    student_preferred_last_name = request.POST["student_preferred_last_name"]
     student_faculty = request.POST["student_faculty"]
     student_course = request.POST["student_course"]
     student_email = request.POST["student_email"]
@@ -37,12 +39,13 @@ def submit_profile(request):
     student_account = StudentAccount(
         #Piping Infomration into Model
         student_id = student_id,
-        first_name = student_name,
-        last_name = student_name,
+        first_name = student_first_name,
+        last_name = student_last_name,
         email = student_email,
         faculty =  student_faculty,
         course =  student_course,
-        preferred_first_name = student_preferred_name,
+        preferred_first_name = student_preferred_first_name,
+        preferred_last_name = student_preferred_last_name,
         phone = student_home_phone,
         mobile = student_mobile,
         best_contact_no = student_best_contactno,
