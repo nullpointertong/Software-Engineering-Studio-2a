@@ -9,8 +9,6 @@
 /* Add a black background color to the top navigation */
 .header {
   background-color:#000000;
-  border-color: #ddd;
-  color: white;
   overflow: hidden;
 }
 
@@ -36,6 +34,7 @@
   background-color: #4CAF50;
   color: white;
 }
+
 body {
   background:#ecf0f1; /*From http://flatuicolors.com/ */
 }
@@ -111,7 +110,6 @@ a, a:visited {
   background:#3498db;
   color:#fff;
   font-weight:400;
-  text-shadow:1px 1px 0px #2d7baf;
   box-shadow:0px 3px 0px #2d7baf;
   -webkit-transition: all .3s ease-in-out;
      -moz-transition: all .3s ease-in-out;
