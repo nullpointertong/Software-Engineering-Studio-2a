@@ -13,10 +13,20 @@
 }
 
 .header {
-  width:100%;
-  height:100px;
-  
+  width:fill;
+  height:auto;
 }
+
+.header{
+  padding:10px;
+}
+img {
+  width:100%;
+  height:300px;
+  object-fit:contain;
+  position: left;
+}
+
 /* Style the links inside the navigation bar */
 .header a {
   float: left;
@@ -24,7 +34,6 @@
   text-align: center;
   padding: 10px 16px;
   text-decoration: none;
-  font-size: 17px;
 }
 
 /* Change the color of links on hover */
@@ -44,6 +53,23 @@ body {
 }
 /********NAV BAR *******/
 
+
+h2 {
+  font-size: 1.5em;
+  letter-spacing: 0.04em;
+  margin: 0;
+  font-weight: normal;
+  color: #ff5252;
+}
+
+.announcement {
+  padding: 10px 15px 0px;
+  border: 1px solid #e1e1e1;
+  width:500px;
+  position: relative;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
 
 /*logon form*/
 form { 

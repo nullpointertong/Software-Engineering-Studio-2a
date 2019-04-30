@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.http import JsonResponse
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -58,3 +59,17 @@ def exit(request):
 def redirect_view(request):
     response = redirect('/accounts/login/')
     return response
+
+def autocomplete(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        search_qs = StudentAccount.objects.filter(first_name__startswith=q)
+        results = []
+        print(q)
+        for r in search_qs:
+            results.append(r.student_id)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

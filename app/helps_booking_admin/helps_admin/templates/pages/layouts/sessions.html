@@ -2,8 +2,28 @@
 
 {% block master %}
 <body>
+        <script>
+                $(document).ready(function(){ 
+                    $("#studentIDSearch").autocomplete({
+                        source: "/ajax_calls/search/",
+                        minLength: 2,
+                        open: function(){
+                            setTimeout(function () {
+                                $('.ui-autocomplete').css('z-index', 99);
+                            }, 0);
+                        }
+                      });
+        
+                });
+        
+        </script>
+    <script src="js/sessions.js"></script>
+    
     {% block content %}
+
     <div style="margin-left: 10px;margin-bottom: 10px">
+        {% load static %}   
+        <img src="{% static "trophy.png" %}" alt="My image">
         <h1>Book a Session</h1>
         <div style="display:inline-block;">
             <p>Date: </p>
@@ -12,7 +32,7 @@
         
         <div style="display:inline-block;">
             <p>Starting: </p>
-            <input id="hour-start" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="9:00" required>
+            <input id="hour-start" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ min_hour }}" required>
         </div>
         
         <div style="display:inline-block;">
@@ -21,36 +41,23 @@
         </div>
     </div>
     <div style="display:inline-block;margin-left:10px">
-            <p>Student</p>
-            <form action="/action_page.php" method="POST">
-                <input list="students" name="student-search">
-                <datalist id="students">
-                  <option value="Richard">
-                  <option value="Aditya">
-                  <option value="Nathan">
-                  <option value="Nic">
-                  <option value="The Duc">
-                  <option value="Alex">
-                </datalist>
-                <!-- <input type="submit"> -->
-              </form>
+            
+        <p>Student</p>
+        <form id="txtsearch" method="POST" class="form-control" action="{% url 'sessions' %}">
+                {% csrf_token %}
+                <input type="text" id="studentIDSearch" name="studentID">
+                <!-- <button type="submit">Submit</button> -->
+                </form>
+       
         <p>Advisor </p>
-        <form action="/action_page.php" method="POST">
-            <input list="advisors" name="advisor-search">
-            <datalist id="advisors">
-              <option value="Richard">
-              <option value="Aditya">
-              <option value="Nathan">
-              <option value="Nic">
-              <option value="The Duc">
-              <option value="Alex">
-            </datalist>
-            <!-- <input type="submit"> -->
+        <form action="/advisor-search" method="POST">
+            <input id="advisors-id" type="text" name="query" placeholder="Enter Name or Staff ID..."> 
           </form>
     </div>
     <div>
         <button style="display:inline;margin:10px">Book</button>
     </div>
+    
     {% endblock %}
 </body>
 {% endblock %} 
