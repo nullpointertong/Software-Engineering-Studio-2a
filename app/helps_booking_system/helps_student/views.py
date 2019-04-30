@@ -10,7 +10,7 @@ def profile(request):
     context = {'profile_page': 'active'}
     return render(request, 'pages/layouts/profile.html', context)
 
-def bookings(request):
+def bookings(request): #testste
     context = {'booking_page': 'active'}
     return render(request, 'pages/layouts/booking.html', context)
 
