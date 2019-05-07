@@ -168,6 +168,7 @@ class StudentAccount(models.Model):
     first_language = models.CharField(max_length=32)
     country_of_origin = models.CharField(max_length=30)
     educational_background = models.CharField(max_length=30)
+    
 
     def __str__(self):
         return 'ID: {} - {}{}{}'.format(
