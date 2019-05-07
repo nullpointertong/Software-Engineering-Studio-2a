@@ -43,12 +43,32 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django_session_timeout.middleware.SessionTimeoutMiddleware'
+    #'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    #'helps_student.middleware.AutoLogout',
+
 ]
+#Handle session is not Json Serializable hence Datetime and timedelta values are only serializable if you are using the PickleSerializer#
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+# Auto logout delay in minutes
+AUTO_LOGOUT_DELAY = 10 #equivalent to 10 minutes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False # allows browser/tab to be closed and remain logged in. Depending on security requirements
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True # Auto logout only iff idle
+
+#2 weeks, in seconds
+SESSION_COOKIE_AGE = 1209600
+
+#1 year, in second to avoid problems loading that page from a browser cache sa. a bookmark
+CSRF_COOKIE_AGE = 31449600
+
+SESSION_EXPIRE_SECONDS = 60
 
 ROOT_URLCONF = 'helps_booking_system.urls'
 
@@ -113,6 +133,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+#SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # Static files (CSS, JavaScript, Images)

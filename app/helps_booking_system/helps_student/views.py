@@ -12,6 +12,7 @@ def profile(request):
     context = {'profile_page': 'active'}
     return render(request, 'pages/layouts/profile.html', context)
 
+<<<<<<< HEAD
 def submit_profile(request):
     print("DEBUG FORM ADDED")
     #Debug message
@@ -64,6 +65,9 @@ def submit_profile(request):
 
 
 def bookings(request):
+=======
+def bookings(request): #testste
+>>>>>>> ff3c334f68f4926645e33b4423c1e664c95fd138
     context = {'booking_page': 'active'}
     return render(request, 'pages/layouts/booking.html', context)
 
