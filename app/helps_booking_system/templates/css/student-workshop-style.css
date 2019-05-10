@@ -168,6 +168,19 @@ a, a:visited {
           transition: all .3s ease-in-out;
 }
 
+table{
+  position: relative;
+  margin: auto;
+  width: 75%;
+}
+
+table, th, td{
+  border: 1px solid black;
+}
+
+th{ 
+
+}
 
 
 
