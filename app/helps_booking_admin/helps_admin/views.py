@@ -1,10 +1,27 @@
 from datetime import datetime
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 
+from .forms import BookSessionForm, ViewSessionForm
+
 # Create your views here.
+
+def generate_session_booking(request):
+    # Process POST request
+    if request.method == "POST":
+        # Generate form instance from request data
+        book_session_form = BookSessionForm(request.POST)
+        # Process form if it is valid
+        if book_session_form.is_valid():
+            session_instance = book_session_form.save(commit=False)
+            # TODO: Add student and staff by looking up in the database. Abort if users are not valid.
+            # TODO: Save session data.
+            return redirect("Booking Confirmed") # redirect TODO: Edit redirect
+    else:
+        form = BookSessionForm()
+    
 
 def login_request(request):
     context = {'login_request': 'active'}
@@ -58,3 +75,5 @@ def exit(request):
 def redirect_view(request):
     response = redirect('/accounts/login/')
     return response
+
+
