@@ -15,6 +15,7 @@
 .header {
   width:fill;
   height:auto;
+  margin:center;
 }
 
 .header{
@@ -28,6 +29,16 @@ img {
   opacity: 1;
 }
 
+nav {
+  position: relative;
+  margin: auto;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 1px 1px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
 .topnav a {
   float: left;
   color: #f2f2f2;
@@ -37,9 +48,8 @@ img {
   font-size: 17px;
 }
 
-.top-nav {
-  position:center;
-}
+
+
 
 /* Style the links inside the navigation bar */
 .header a {
@@ -179,6 +189,11 @@ table, th, td{
 }
 
 th{ 
+  font-size: 20px;
+  padding: 5px;
+}
+
+td{
 
 }
 
