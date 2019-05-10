@@ -1,63 +1,59 @@
 {% extends "pages/layouts/base.html" %}
 
-{% block master %}
+   
+{% block content %}
 <body>
-        <script>
-                $(document).ready(function(){ 
-                    $("#studentIDSearch").autocomplete({
-                        source: "/ajax_calls/search/",
-                        minLength: 2,
-                        open: function(){
-                            setTimeout(function () {
-                                $('.ui-autocomplete').css('z-index', 99);
-                            }, 0);
-                        }
-                      });
-        
-                });
-        
-        </script>
-    <script src="js/sessions.js"></script>
-    
-    {% block content %}
-
-    <div style="margin-left: 10px;margin-bottom: 10px">
-        {% load static %}   
-        <img src="{% static "trophy.png" %}" alt="My image">
-        <h1>Book a Session</h1>
-        <div style="display:inline-block;">
-            <p>Date: </p>
-            <input id="date" type="date" value="{{ datetime }}" required>
-        </div>
-        
-        <div style="display:inline-block;">
-            <p>Starting: </p>
-            <input id="hour-start" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ min_hour }}" required>
-        </div>
-        
-        <div style="display:inline-block;">
-            <p>Ending: </p>
-            <input id="hour-end" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ max_hour }}" required>
-        </div>
-    </div>
-    <div style="display:inline-block;margin-left:10px">
+    <script>
+        $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
+            // configure select2 on $(this) when initialised
             
-        <p>Student</p>
-        <form id="txtsearch" method="POST" class="form-control" action="{% url 'sessions' %}">
-                {% csrf_token %}
-                <input type="text" id="studentIDSearch" name="studentID">
-                <!-- <button type="submit">Submit</button> -->
-                </form>
-       
-        <p>Advisor </p>
-        <form action="/advisor-search" method="POST">
-            <input id="advisors-id" type="text" name="query" placeholder="Enter Name or Staff ID..."> 
-          </form>
+        }) 
+    </script>
+    <script src="js/sessions.js"></script>
+    <div style="margin-left: 10px;margin-bottom: 10px">
+        <h1>Book a Session</h1>
     </div>
     <div>
-        <button style="display:inline;margin:10px">Book</button>
+        <div style="float:right; position:relative">
+            {{ calendar }}
+        </div>
+        <div style="margin-left:10px; margin-bottom:10px; float:left; position:relative">
+            <div style="display:inline-block;">
+                <p>Date: </p>
+                <input id="date" type="date" value="{{ datetime }}" required>
+            </div>
+            
+            <div style="display:inline-block;">
+                <p>Starting: </p>
+                <input id="hour-start" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ min_hour }}" required>
+            </div>
+            
+            <div style="display:inline-block;">
+                <p>Ending: </p>
+                <input id="hour-end" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ max_hour }}" required>
+            </div>
+        </div>
+        <div style="margin-left:10px; float:left; position:relative">
+                
+            <p>Student</p>
+            <div>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <!-- <input type="submit" /> -->
+                </form>
+            </div>
+            
+            <p>Advisor </p>
+            <form action="/advisor-search" method="POST">
+                <input id="advisors-id" type="text" name="query" placeholder="Enter Name or Staff ID..."> 
+            </form>
+        </div>
+        <div>
+            <button style="margin:10px; float:left;position:relative">Book</button>
+        </div>
+        
     </div>
     
-    {% endblock %}
 </body>
 {% endblock %} 

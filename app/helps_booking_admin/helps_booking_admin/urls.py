@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin, auth
-from django.urls import path, include
+from django.urls import path, include, re_path
 from helps_admin import views
 
 urlpatterns = [
@@ -30,5 +30,8 @@ urlpatterns = [
     path('email/', views.email, name='email'),
     path('room/', views.room, name='room'),
     path('message/', views.message, name='message'),
-    path('exit/', views.exit, name='exit')
+    path('exit/', views.exit, name='exit'),
+    re_path(r'^student-autocomplete/$',
+        views.StudentAutocomplete.as_view(),
+        name='student-autocomplete',)
 ]
