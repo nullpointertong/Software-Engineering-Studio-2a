@@ -4,9 +4,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 
-from .forms import BookSessionForm, ViewSessionForm
+from .forms import BookSessionForm
 
 # Create your views here.
+
+def user_is_valid(_user):
+    """Accepts list or user string"""
+    # TODO: Validate user in database
+    return True
 
 def generate_session_booking(request):
     # Process POST request
@@ -17,11 +22,17 @@ def generate_session_booking(request):
         if book_session_form.is_valid():
             session_instance = book_session_form.save(commit=False)
             # TODO: Add student and staff by looking up in the database. Abort if users are not valid.
-            # TODO: Save session data.
-            return redirect("Booking Confirmed") # redirect TODO: Edit redirect
+            if not user_is_valid([session_instance.student, session_instance.staff]):
+                # TODO raise error
+                pass
+            session_instance.save()
+            return HttpResponseRedirect("sessions") # redirect TODO: Edit redirect
     else:
-        form = BookSessionForm()
-    
+        book_session_form = BookSessionForm()
+    context = {
+        "book_session_form": book_session_form
+    }
+    return render(request, 'pages/layouts/sessions.html', context)
 
 def login_request(request):
     context = {'login_request': 'active'}

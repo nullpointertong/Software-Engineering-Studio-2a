@@ -20,8 +20,8 @@ from helps_admin import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.sessions, name='sessions'),
-    path('sessions/', views.sessions, name='sessions'),
+    path('', views.generate_session_booking, name='sessions'),
+    path('sessions/', views.generate_session_booking, name='sessions'),
     path('workshops/', views.workshops, name='workshops'),
     path('advisors/', views.advisors, name='advisors'),
     path('students/', views.students, name='students'),

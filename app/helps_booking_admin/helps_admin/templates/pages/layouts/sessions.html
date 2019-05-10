@@ -19,9 +19,9 @@
     </div>
 
     <div id="Book" class="tabcontent">
-        <form action="/helps_admin/" method="POST">
+        <form action="" name="BookSessionForm" method="POST">
             {% csrf_token %}
-            {{ form }}
+            {{ book_session_form.as_p }}
             <input type="submit" value="Submit">
         </form>
     </div>
