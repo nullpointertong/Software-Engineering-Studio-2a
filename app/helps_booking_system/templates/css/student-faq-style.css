@@ -28,8 +28,8 @@ img {
   opacity: 1;
 }
 
-.topnav a {
-  float: left;
+.topnav li {
+  float: center;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
@@ -37,9 +37,6 @@ img {
   font-size: 17px;
 }
 
-.top-nav {
-  position:center;
-}
 
 /* Style the links inside the navigation bar */
 .header a {
@@ -57,7 +54,7 @@ img {
 }
 
 /* Add a color to the active/current link */
-.header a.active {
+.topnav a.active {
   background-color: #4CAF50;
   color: white;
 }
