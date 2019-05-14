@@ -21,7 +21,8 @@ class Calendar(HTMLCalendar):
 </td>""".format(formatted_date, day)
             if day == self.day:
                 day_render = day_render.replace('date\'>', 'date\'><u>').replace('</span>', '</u></span>')
-                print (day_render)
+                
+                # print (day_render)
                     
             # if len(sessions_per_day) > 0:
             #     day_render = day_render.replace('<td', '<td ')

@@ -4,4 +4,16 @@ function selectDate (formatted_date) {
 
   var date_input = document.querySelector('input[type="date"]');
   date_input.value = formatted_date;
+  var day_cells = document.getElementsByTagName('td');
+  for (var i = 0; i < day_cells.length; i++) {
+    if (day_cells[i].id.toString() == formatted_date) {
+      day_cells[i].style.borderWidth = "3px";
+    }
+    else
+    {
+      day_cells[i].style.borderWidth = "1px";
+    }
+  }
+  // var obj = document.getElementById(formatted_date);
+  // obj.style.borderStyle = "inset";
 }
