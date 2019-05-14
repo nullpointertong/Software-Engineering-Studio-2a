@@ -181,7 +181,8 @@ a, a:visited {
 table{
   position: relative;
   margin: auto;
-  width: 80%;
+  width: 1000px;
+  background-color: #f9f9f9;
 }
 
 table, th, td{
