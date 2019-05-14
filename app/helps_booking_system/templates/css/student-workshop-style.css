@@ -181,7 +181,7 @@ a, a:visited {
 table{
   position: relative;
   margin: auto;
-  width: 75%;
+  width: 80%;
 }
 
 table, th, td{
@@ -194,7 +194,9 @@ th{
 }
 
 td{
-
+  padding: 1px;
+  text-align: center;
+  font-size: 16px;
 }
 
 
