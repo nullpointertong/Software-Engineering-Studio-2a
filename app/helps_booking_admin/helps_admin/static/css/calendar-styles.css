@@ -18,13 +18,12 @@
   .calendar td {
     text-align: center;
     width: 20px;
-    height: 0px;
-    padding: 0px 0px 0px 0px;
+    height: 20px;
+    padding: 10px 0px 10px 0px;
   }
 
-  .calendar td:hover {
-    background-color: #defede
-  }
+  .calendar td:hover { background-color: #a2b9ff }
+  .calendar td:active { background-color: #264ab5 }
   
   .month {
     font-size: 15px;

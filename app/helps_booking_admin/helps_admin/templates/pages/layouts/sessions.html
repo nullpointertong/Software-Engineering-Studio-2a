@@ -1,46 +1,21 @@
 {% extends "pages/layouts/base.html" %}
 
-   
 {% block content %}
-<body>
-    <script>
-        $(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=select2]', function() {
-            // configure select2 on $(this) when initialised
-            
-        }) 
-    </script>
-    <script src="js/sessions.js"></script>
+<body>    
+    {% load static %}
+    <script src="{% static "js/sessions.js/" %}"></script>
+    
     <div style="margin-left: 10px;margin-bottom: 10px">
         <h1>Book a Session</h1>
     </div>
     <div>
-        <div style="float:right; position:relative">
-            {{ calendar }}
-        </div>
-        <div style="margin-left:10px; margin-bottom:10px; float:left; position:relative">
-            <div style="display:inline-block;">
-                <p>Date: </p>
-                <input id="date" type="date" value="{{ datetime }}" required>
-            </div>
-            
-            <div style="display:inline-block;">
-                <p>Starting: </p>
-                <input id="hour-start" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ min_hour }}" required>
-            </div>
-            
-            <div style="display:inline-block;">
-                <p>Ending: </p>
-                <input id="hour-end" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ max_hour }}" required>
-            </div>
-        </div>
-        <div style="margin-left:10px; float:left; position:relative">
-                
+        <div style="display:inline-block; width:30%; margin-left:10px; position:relative">        
             <p>Student</p>
-            <div>
+            <div style="margin-bottom:20px;">
                 <form action="" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <!-- <input type="submit" /> -->
+                <input id="advisors-id" type="text" placeholder="Enter Name or Student ID..." name="query">
                 </form>
             </div>
             
@@ -48,12 +23,35 @@
             <form action="/advisor-search" method="POST">
                 <input id="advisors-id" type="text" name="query" placeholder="Enter Name or Staff ID..."> 
             </form>
+            
         </div>
-        <div>
-            <button style="margin:10px; float:left;position:relative">Book</button>
+        <div style="display:inline-block; position:relative;">
+            {{ calendar }}
         </div>
+        <div id="sess_time_select" style="display:none; width:70%; margin-top:20px; margin-left:10px; position:relative">
+            <div>
+                <p>Date: </p>
+                <input id="date" type="date" value="{{ datetime }}" required>
+            </div>
+            
+            <div>
+                <p>Starting: </p>
+                <input id="hour-start" type="time" value="09:00" required>
+            </div>
+            
+            <div>
+                <p>Ending: </p>
+                <input id="hour-end" type="time" value="10:00" required>
+            </div>
+            <div>
+                <button style="margin:10px; position:relative">Book</button>
+            </div>
+        </div>
+    
         
     </div>
+    
+    
     
 </body>
 {% endblock %} 
