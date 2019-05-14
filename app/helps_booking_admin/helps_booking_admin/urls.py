@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin, auth
 from django.urls import path, include, re_path
-from helps_admin import views
+from helps_admin import views, widgets
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.sessions, name='sessions'),
-    path('sessions/', views.sessions, name='sessions'),
+    path('', views.SessionView.as_view(), name='sessions'),
+    path('sessions/', views.SessionView.as_view(), name='sessions'),
     path('workshops/', views.workshops, name='workshops'),
     path('advisors/', views.advisors, name='advisors'),
     path('students/', views.students, name='students'),
@@ -32,6 +32,9 @@ urlpatterns = [
     path('message/', views.message, name='message'),
     path('exit/', views.exit, name='exit'),
     re_path(r'^student-autocomplete/$',
-        views.StudentAutocomplete.as_view(),
-        name='student-autocomplete',)
+        widgets.StudentAutocomplete.as_view(),
+        name='student-autocomplete'),
+    re_path(r'^staff-autocomplete/$',
+        widgets.StaffAutocomplete.as_view(),
+        name='staff-autocomplete')
 ]

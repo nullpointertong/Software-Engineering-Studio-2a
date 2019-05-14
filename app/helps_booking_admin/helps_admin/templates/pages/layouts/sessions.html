@@ -9,9 +9,9 @@
         <h1>Book a Session</h1>
     </div>
     <div>
-        <div style="display:inline-block; width:30%; margin-left:10px; position:relative">        
-            <p>Student</p>
-            <div style="margin-bottom:20px;">
+        <div style="float:left; margin-left:10px; margin-bottom:10px; position:relative">        
+            <a style="margin-bottom:10px">Student</a>
+            <div style="margin-bottom:10px;">
                 <form action="" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
@@ -19,7 +19,7 @@
                 </form>
             </div>
             
-            <p>Advisor </p>
+            <a style="margin-bottom:10px">Advisor</a>
             <form action="/advisor-search" method="POST">
                 <input id="advisors-id" type="text" name="query" placeholder="Enter Name or Staff ID..."> 
             </form>
@@ -28,10 +28,10 @@
         <div style="display:inline-block; position:relative;">
             {{ calendar }}
         </div>
-        <div id="sess_time_select" style="display:none; width:70%; margin-top:20px; margin-left:10px; position:relative">
+        <div id="sess_time_select" style="display:none; margin-left:20px; float:right; position:relative">
             <div>
                 <p>Date: </p>
-                <input id="date" type="date" value="{{ datetime }}" required>
+                <input id="date" type="date" value="{{ datetime }}" required disabled>
             </div>
             
             <div>
@@ -44,7 +44,7 @@
                 <input id="hour-end" type="time" value="10:00" required>
             </div>
             <div>
-                <button style="margin:10px; position:relative">Book</button>
+                <button onclick="book();" style="margin:10px; position:relative">Book</button>
             </div>
         </div>
     
