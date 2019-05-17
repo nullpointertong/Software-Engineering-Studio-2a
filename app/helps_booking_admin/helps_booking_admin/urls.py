@@ -31,5 +31,6 @@ urlpatterns = [
     path('email/', views.email, name='email'),
     path('room/', views.room, name='room'),
     path('messages/', views.messages, name='messages'),
-    path('exit/', views.exit, name='exit')
+    path('exit/', views.exit, name='exit'),
+    path('search_sessions/', views.search_sessions, name='sessionlist')
 ]

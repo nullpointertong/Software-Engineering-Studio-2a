@@ -15,7 +15,27 @@
     </div>
 
     <div id="View" class="tabcontent">
-        <p>Current bookings listed here</p>
+        <form action="search_sessions" method="POST">
+            <h5>Lookup existing bookings using the filters below</h5>
+            <div>
+                <p>Student Name
+                    <input name="student_full_name" type="text">
+                </p>
+                <p>Student ID
+                    <input name="student_id" type="text">
+                </p>
+                <p>Date
+                    <input name="date" type="date">
+                </p>
+                <p>Start time
+                    <input name="start_time" type="time">
+                </p>
+                <p>End time
+                    <input name="end_time" type="time">
+                </p>
+            </div>
+            <input type="submit" value="Search">
+        </form>
     </div>
 
     <div id="Book" class="tabcontent">

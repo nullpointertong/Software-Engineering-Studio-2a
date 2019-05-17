@@ -5,13 +5,28 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 
 from .forms import BookSessionForm
+from .models import StudentAccount, StaffAccount, Session
 
 # Create your views here.
 
 def user_is_valid(_user):
-    """Accepts list or user string"""
+    """Accepts (Student/Staff)Accounts and checks if all are in the databse."""
     # TODO: Validate user in database
-    return True
+    if isinstance(_user, StudentAccount) or isinstance(_user, StaffAccount):
+        return _user in StudentAccount.objects.all() and _user in StaffAccount.objects.all()
+    elif isinstance(_user, list):
+        # Large impact database lookup, use singular validation if possible
+        for user in _user:
+            if user not in StudentAccount.objects.all() and user not in StaffAccount.objects.all():
+                return False
+        return True
+
+def search_sessions(request):
+    # Process request
+    if request.method == "POST":
+        # Unpack and validate
+        filter_data = request.POST
+        # TODO: Field validation. If invalid raise error message saying invalid filter.
 
 def generate_session_booking(request):
     # Process POST request
