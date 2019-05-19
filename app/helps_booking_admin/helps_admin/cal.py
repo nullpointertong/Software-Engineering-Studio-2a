@@ -8,7 +8,6 @@ class Calendar(HTMLCalendar):
         self.day = day
         self.year = year
         self.month = month
-        self.today = datetime.today()
         super().__init__()
 
     def formatday(self, day, month, year, sessions):
@@ -21,7 +20,7 @@ class Calendar(HTMLCalendar):
             day_render = """<td id="{0}" onclick="selectDate('{0}');">
     <span class='date'>{1}</span>
 </td>""".format(formatted_date, day)
-            if day == self.today.day and month == self.today.month and year == self.today.year:
+            if day == self.day and month == self.month and year == self.year:
                 day_render = day_render.replace('date\'>', 'date\'><u>').replace('</span>', '</u></span>').replace('<td ', '<td onload="selectedDate=this;" style="background-color:#a7bdf5;" ')
                 
                 # print (day_render)
@@ -48,7 +47,7 @@ class Calendar(HTMLCalendar):
         # <tr><th colspan="5" class="month">May 2019</th></tr>
         month_row = month_row.replace('colspan="7"', 'colspan="5"')
         if prev_month:
-            month_row = month_row.replace('<tr>', '<tr><td class="calendar td"><a href=".?{}" style="display:block;"> < </a></td>'.format(prev_month)).replace('</tr>', '<td class="calendar td"><a href=".?{}" style="display:block;"> > </a></td></tr>'.format(next_month))
+            month_row = month_row.replace('<tr>', '<tr><td class="calendar td"><a href=".?{}" style="display:block;height=100%;"> < </a></td>'.format(prev_month)).replace('</tr>', '<td class="calendar td"><a href=".?{}" style="display:block;height=100%;"> > </a></td></tr>'.format(next_month))
         cal += month_row
         # print(month_row)
         
@@ -56,3 +55,9 @@ class Calendar(HTMLCalendar):
         for week in self.monthdays2calendar(self.year, self.month):
             cal += f'{self.formatweek(week, sessions)}\n'
         return cal
+
+    def new_date(self, y, m, d):
+        self.day = d
+        self.month = m
+        self.year = y
+        return self

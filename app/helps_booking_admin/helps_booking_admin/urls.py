@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin, auth
 from django.urls import path, include, re_path
-from helps_admin import views, widgets
+from django.views import generic
+from helps_admin import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,10 +32,5 @@ urlpatterns = [
     path('room/', views.room, name='room'),
     path('message/', views.message, name='message'),
     path('exit/', views.exit, name='exit'),
-    re_path(r'^student-autocomplete/$',
-        widgets.StudentAutocomplete.as_view(),
-        name='student-autocomplete'),
-    re_path(r'^staff-autocomplete/$',
-        widgets.StaffAutocomplete.as_view(),
-        name='staff-autocomplete')
+    path('create_session/', views.create_session, name='create_session')
 ]

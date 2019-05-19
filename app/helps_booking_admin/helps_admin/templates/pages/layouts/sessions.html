@@ -3,55 +3,68 @@
 {% block content %}
 <body>
     {% load static %}
-    <script src="{% static "js/sessions.js/" %}"></script>
+    <script src="{% static 'js/sessions.js/' %}"></script>
     
     <div style="margin-left: 10px;margin-bottom: 10px">
         <h1>Book a Session</h1>
     </div>
-    <div>
-        <div style="float:left; margin-left:10px; margin-bottom:10px; position:relative">        
+    <div style="width:100%;">
+        <form id="create_session" action="/create_session/" onsubmit="return book();" method="POST">
+                {% csrf_token %}
+        <div style="float:left; margin-left:10px; margin-bottom:10px; position:relative">
             <a style="margin-bottom:10px">Student</a>
-            <div style="margin-bottom:10px;">
-                <form action="" method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                <input id="advisors-id" type="text" placeholder="Enter Name or Student ID..." name="query">
-                </form>
-            </div>
-            
+            <br>
+            <input id="student_search" value="{{ default_student }}" onchange="this.style.color='black';" type="text" placeholder="Enter Student ID..." name="req_student_id">
+            <br>
             <a style="margin-bottom:10px">Advisor</a>
-            <form action="/advisor-search" method="POST">
-                <input id="advisors-id" type="text" name="query" placeholder="Enter Name or Staff ID..."> 
-            </form>
-            
+            <br>
+            <input id="advisor_search" value="{{ default_advisor }}" onchange="this.style.color='black';" type="text" name="req_advisor_id" placeholder="Enter Staff ID...">
+        
         </div>
-        <div style="display:inline-block; position:relative;">
+        <div style="display:block; float:left; position:relative;">
             {{ calendar }}
         </div>
-        <div id="sess_time_select" style="display:none; margin-left:20px; float:right; position:relative">
+        <div id="sess_time_select" style="display:{{ time_selection_visible }}; margin-left:15px; float:right; position:relative">
             <div>
-                <p>Date: </p>
-                <input id="date" type="date" value="{{ datetime }}" required disabled>
+                <a>Date: </a>
+                <br>
+                <input id="date" type="date" value="{{ default_date }}" name="req_sess_date" style="width:100%;" required>
             </div>
-            
-            <div>
-                <p>Starting: </p>
-                <input id="hour-start" type="time" value="09:00" required>
+            <div onchange="document.getElementById('time_error').style.display='none';">
+                <a>Starting: </a>
+                <select id="hour-start" name="req_sess_sh" class="input-small">
+                    {{ opt_hours }}
+                </select>
+
+                :
+                <select id="min-start" name="req_sess_sm" class="input-small">
+                    {{ opt_minutes }}
+                </select> 
+                <select id="timeofday-start" name="req_sess_sa" class="input-small">
+                    {{ opt_am_pm }}
+                </select>
             </div>
-            
-            <div>
-                <p>Ending: </p>
-                <input id="hour-end" type="time" value="10:00" required>
+            <div onchange="document.getElementById('time_error').style.display='none';">
+                <a>Ending:</a>
+                <select id="hour-end" name="req_sess_eh" class="input-small">
+                    {{ opt_hours }}
+                </select>
+                :
+                <select id="min-end" name="req_sess_em" class="input-small">
+                    {{ opt_minutes }}
+                </select> 
+                <select id="timeofday-end" name="req_sess_ea" class="input-small">
+                    {{ opt_am_pm }}
+                </select>
             </div>
+            <p id="time_error" style="display:none; color:red;">Starting time must be before ending time!</p>
             <div>
-                <button onclick="book();" style="margin:10px; position:relative">Book</button>
+                <button style="margin:10px; position:relative">Check</button>
+                <button type=button style="display: block; margin:10px; position:relative">Book</button>
             </div>
         </div>
-    
-        
+        </form> 
     </div>
-    
-    
     
 </body>
 {% endblock %} 
