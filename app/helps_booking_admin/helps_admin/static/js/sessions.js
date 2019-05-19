@@ -1,9 +1,5 @@
 var selectedDate = null;
 
-$(document).on('autocompleteLightInitialize', '[data-autocomplete-light-function=student-autocomplete]', function() {
-  // do select2 configuration on $(this)
-})
-
 function selectDate (formatted_date) {
   var time_select = document.getElementById("sess_time_select");
   time_select.style.display = "block";
@@ -25,10 +21,8 @@ function book () {
   var date_input = document.getElementById('date');
   var sh = document.getElementById('hour-start').value;
   var sm = document.getElementById('min-start').value;
-  var sa = document.getElementById('timeofday-start').value;
   var eh = document.getElementById('hour-end').value;
   var em = document.getElementById('min-end').value;
-  var ea = document.getElementById('timeofday-end').value;
   var form_incomplete = false;
   if (student_input.value === "")
   {
@@ -42,8 +36,8 @@ function book () {
     advisor_input.style.color = "red";
     form_incomplete = true;
   }
-  var start_time = ((sa == 'PM' ? 12 : 0) + (sh % 12)) * 100 + 1 * sm;
-  var end_time = ((ea == 'PM' ? 12 : 0) + (eh % 12)) * 100 + 1 * em;
+  var start_time = 100 * sh + 1 * sm;
+  var end_time =  100 * eh + 1 * em;
   
   // alert(start_time);
   // alert(end_time);
@@ -57,4 +51,42 @@ function book () {
     alert("Please check your input!");
   }
   return !form_incomplete;
+}
+
+
+function setTime() {
+  var sh = document.getElementById('hour-start').value;
+  var sm = document.getElementById('min-start').value;
+  var eh = document.getElementById('hour-end').value;
+  var em = document.getElementById('min-end').value;
+  var s_disp = document.getElementById('start_time_disp');
+  var e_disp = document.getElementById('end_time_disp');
+  s_disp.innerHTML = convert_to_twelve_hour(sh, sm);
+  e_disp.innerHTML = convert_to_twelve_hour(eh, em);
+}
+
+function convert_to_twelve_hour(hour, minute) {
+  var tod = hour < 12 ? 'AM' : 'PM';
+  hour = (1 * hour) % 12;
+  if (hour === 0) hour = 12;
+  return hour + ':' + minute + ' ' + tod;
+}
+
+
+function formElementChange() {
+  setTime();
+  try {
+    document.getElementById('booking_span').style.display = 'none';
+  } catch (e) { }
+}
+
+function confirmBooking() {
+  var form = document.forms['create_session'];
+  document.getElementById('confirm_hidden').value = 'yes';
+  form.submit();
+}
+
+
+function toMonth(month) {
+  month = month.split('month=')
 }

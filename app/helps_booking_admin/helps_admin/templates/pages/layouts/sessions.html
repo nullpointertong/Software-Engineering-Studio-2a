@@ -1,66 +1,86 @@
 {% extends "pages/layouts/base.html" %}
 
 {% block content %}
-<body>
+<body onload="setTime();">
     {% load static %}
     <script src="{% static 'js/sessions.js/' %}"></script>
     
     <div style="margin-left: 10px;margin-bottom: 10px">
-        <h1>Book a Session</h1>
+        <h1>{{ page_title }}</h1>
     </div>
     <div style="width:100%;">
         <form id="create_session" action="/create_session/" onsubmit="return book();" method="POST">
                 {% csrf_token %}
-        <div style="float:left; margin-left:10px; margin-bottom:10px; position:relative">
+        <div style="float:left; margin-left:10px; margin-bottom:10px;position:relative">
             <a style="margin-bottom:10px">Student</a>
             <br>
-            <input id="student_search" value="{{ default_student }}" onchange="this.style.color='black';" type="text" placeholder="Enter Student ID..." name="req_student_id">
+            <input id="student_search" value="{{ default_student }}" onchange="
+            this.style.color='black';formElementChange();" type="text" placeholder="Enter Student ID..." name="req_student_id">
+            <strong style="display:block;{{ student_info_color }}">{{ student_info }}</strong>
             <br>
             <a style="margin-bottom:10px">Advisor</a>
             <br>
-            <input id="advisor_search" value="{{ default_advisor }}" onchange="this.style.color='black';" type="text" name="req_advisor_id" placeholder="Enter Staff ID...">
+            <input id="advisor_search" value="{{ default_advisor }}" onchange="
+            this.style.color='black';formElementChange();" type="text" name="req_advisor_id" placeholder="Enter Staff ID...">
+            <strong style="display:block;{{ advisor_info_color }}">{{ advisor_info }}</strong>
+            <a style="margin-bottom:10px">Location</a>
+            <br>
+            <input id="location_input" value="{{ default_location }}" onchange="
+            this.style.color='black';formElementChange();" type="text" name="req_location" placeholder="Enter Location...">
         
         </div>
+        {% if not form_valid %}
         <div style="display:block; float:left; position:relative;">
             {{ calendar }}
         </div>
-        <div id="sess_time_select" style="display:{{ time_selection_visible }}; margin-left:15px; float:right; position:relative">
-            <div>
+        {% endif %}
+        <div id="sess_time_select" style="display:{{ time_selection_visible }}; margin-left:15px; float:inline-left; position:relative">
+            <div style="display:inline-block">
                 <a>Date: </a>
                 <br>
-                <input id="date" type="date" value="{{ default_date }}" name="req_sess_date" style="width:100%;" required>
+                <input id="date" type="date" value="{{ default_date }}" onchange="formElementChange();" name="req_sess_date" required>
             </div>
             <div onchange="document.getElementById('time_error').style.display='none';">
-                <a>Starting: </a>
-                <select id="hour-start" name="req_sess_sh" class="input-small">
-                    {{ opt_hours }}
-                </select>
-
-                :
-                <select id="min-start" name="req_sess_sm" class="input-small">
-                    {{ opt_minutes }}
-                </select> 
-                <select id="timeofday-start" name="req_sess_sa" class="input-small">
-                    {{ opt_am_pm }}
-                </select>
-            </div>
-            <div onchange="document.getElementById('time_error').style.display='none';">
-                <a>Ending:</a>
-                <select id="hour-end" name="req_sess_eh" class="input-small">
+                <a>From: </a>
+                <select onchange="formElementChange();" selected="{{ default_sh }}" id="hour-start" name="req_sess_sh" class="input-small">
                     {{ opt_hours }}
                 </select>
                 :
-                <select id="min-end" name="req_sess_em" class="input-small">
+                <select onchange="formElementChange();" selected="{{ default_sm }}" id="min-start" name="req_sess_sm" class="input-small">
                     {{ opt_minutes }}
-                </select> 
-                <select id="timeofday-end" name="req_sess_ea" class="input-small">
-                    {{ opt_am_pm }}
                 </select>
+                <em id="start_time_disp"></em>
+            </div>
+            <div onchange="document.getElementById('time_error').style.display='none';">
+                <a>To:</a>
+                <select onchange="formElementChange();" selected="{{ default_eh }}" id="hour-end" name="req_sess_eh" class="input-small">
+                    {{ opt_hours_1 }}
+                </select>
+                :
+                <select onchange="formElementChange();" selected="{{ default_em }}" id="min-end" name="req_sess_em" class="input-small">
+                    {{ opt_minutes_1 }}
+                </select>
+                <em id="end_time_disp"></em>
             </div>
             <p id="time_error" style="display:none; color:red;">Starting time must be before ending time!</p>
             <div>
-                <button style="margin:10px; position:relative">Check</button>
-                <button type=button style="display: block; margin:10px; position:relative">Book</button>
+                <input id='confirm_hidden' type="hidden" name="confirm_booking" value="no" /> 
+                <button id="check-button" style="margin:10px; position:relative">Check</button>
+                <br>
+                {% if not clean_page %}
+                {% if form_valid %}
+                <div id='booking_span'>
+                    <span>The information is valid. Press "Book" to confirm.</span>
+                    <button type=button onclick="confirmBooking();" style="margin:10px; position:relative">Book</button>
+                </div>
+                {% else %}
+                    <table style="display: block;position:relative;background-color:khaki"><th>INVALID BOOKING<th>
+                        {% for e in errors %}
+                        <tr><td style="color:red">{{ e }}</td></tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+                {% endif %}
             </div>
         </div>
         </form> 

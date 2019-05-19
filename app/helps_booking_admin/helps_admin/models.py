@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import ungettext_lazy as _
@@ -148,7 +149,7 @@ class StaffAccount(models.Model):
         )
 
 class StudentAccount(models.Model):
-    student_id = models.PositiveIntegerField(primary_key=True)
+    student_id = models.PositiveIntegerField(primary_key=True, default=uuid.uuid4)
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField()
