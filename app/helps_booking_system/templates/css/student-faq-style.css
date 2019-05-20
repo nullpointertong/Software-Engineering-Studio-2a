@@ -77,12 +77,17 @@ h2 {
   padding: 10px 15px 0px;
   border: 1px solid #e1e1e1;  
   width:1000px;
-  text-align: center;
+  text-align: left;
   background-color: #f9f9f9;
   border-radius: 20px;
 
   position: relative;
   margin: auto;
+}
+
+p{
+  padding-bottom: 10pt;
+  padding-top: 5pt;
 }
 
 
