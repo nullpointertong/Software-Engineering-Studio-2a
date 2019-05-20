@@ -28,8 +28,8 @@ img {
   opacity: 1;
 }
 
-.topnav li {
-  float: center;
+.topnav a {
+  float: left;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
@@ -37,6 +37,9 @@ img {
   font-size: 17px;
 }
 
+.top-nav {
+  position:center;
+}
 
 /* Style the links inside the navigation bar */
 .header a {
@@ -54,9 +57,14 @@ img {
 }
 
 /* Add a color to the active/current link */
-.topnav a.active {
+.header a.active {
   background-color: #4CAF50;
   color: white;
+}
+
+.header a.spacefiller {
+
+  color: black;
 }
 
 body {
@@ -73,16 +81,50 @@ h2 {
   color: #ff5252;
 }
 
-.announcement {
+h3 {
+  font-size:1.3em;
+  font-weight: bold;
+  color:#000000;
+  padding-top: 10pt;
+}
+
+h4 {
+  font-size:1.1em;
+  text-decoration: underline;
+  margin-bottom:25px;
+  color:#000000;
+  padding-top: 10pt;
+}
+
+h5{
+  font-size: 1em; 
+  font-weight: bold;
+}
+
+.content {
   padding: 10px 15px 0px;
   border: 1px solid #e1e1e1;  
   width:1000px;
-  text-align: center;
+  text-align: left;
   background-color: #f9f9f9;
-  border-radius: 20px;
+  border-radius: 4px;
+  line-height: 18pt;
 
   position: relative;
   margin: auto;
+}
+
+li {
+  position: relative;
+  list-style-position: inside;
+  list-style: square;
+  padding-left: 15pt;
+  line-height: 20pt;
+}
+
+p{
+  padding-bottom: 10pt;
+  padding-top: 5pt;
 }
 
 
@@ -108,13 +150,7 @@ form {
   
 }
 
-h4 {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size:2em;
-  font-weight:300;
-  margin-bottom:25px;
-  color:#000000;
-}
+
 
 input {
   display:block;
@@ -135,12 +171,7 @@ input:focus {
 }
 
 
-li {
-  position:absolute;
-  right:40px;
-  bottom:62px;
-  list-style:none;
-}
+
 
 a, a:visited {
   text-decoration:none;
