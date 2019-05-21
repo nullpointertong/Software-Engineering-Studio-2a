@@ -149,7 +149,7 @@ class StaffAccount(models.Model):
         )
 
 class StudentAccount(models.Model):
-    student_id = models.PositiveIntegerField(primary_key=True, default=uuid.uuid4)
+    student_id = models.PositiveIntegerField(primary_key=True)
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField()
