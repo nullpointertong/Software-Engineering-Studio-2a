@@ -98,23 +98,29 @@ def create_session(request):
         context['clean_page'] = False
 
         if data['confirm_booking'] == 'yes':
+            start_time = datetime(y, m, d, int(sh), int(sm), tzinfo=timezone.utc)
+            end_time = datetime(y, m, d, int(eh), int(em), tzinfo=timezone.utc)
             Session.objects.create(
                 student=matched_student[0],
                 staff=matched_advisor[0],
-                session_time=datetime(y, m, d, int(sh), int(sm), tzinfo=timezone.utc), # This is starting time, still missing end time
+                session_time=start_time, # This is starting time, still missing end time
                 location=context['default_location'],
                 has_finished=False,
                 no_show=False,)
-            return render(request, 'pages/layouts/faq.html', context)
+            context['from_time'] = start_time
+            context['to_time'] = end_time
+            return render(request, 'pages/layouts/session_booked.html', context)
         else:
             context['page_title'] = 'Confirm Booking' if context['form_valid'] else 'Book a Session'
             context['calendar'] = mark_safe(SessionView.calendar.new_date(y, m, d).formatmonth(True, context['prev_month'], context['next_month']))
-            return render(request, 'pages/layouts/sessions.html', context)
+            return render(request, 'pages/layouts/create_session.html', context)
+    else:
+        return SessionView.as_view()(request)
             
 
 class SessionView(generic.ListView):
     model = Session
-    template_name = 'pages/layouts/sessions.html'
+    template_name = 'pages/layouts/create_session.html'
     form = CreateSessionForm()
     # Drop down options for hours and minutes
     opt_hours = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(7, 21)])
@@ -152,6 +158,10 @@ class SessionView(generic.ListView):
         context['form'] = SessionView.form
 
         return context
+
+
+def sessions(request):
+    return render(request, 'pages/layouts/sessions.html')
 
 def get_date(req_day):
     if req_day:

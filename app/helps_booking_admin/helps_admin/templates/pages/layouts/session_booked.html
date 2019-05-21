@@ -1,0 +1,13 @@
+{% extends "pages/layouts/base.html" %}
+
+{% block content %}
+<h1>New Session Booked Successfully.</h1>
+<span style='display:block; margin-left: 20px'>
+    <strong>Student: </strong>{{ student_info }} ({{ default_student }})<br>
+    <strong>Advisor: </strong>{{ advisor_info }} ({{ default_advisor }})<br>
+    <strong>Location: </strong>{{ default_location }}<br>
+    <strong>From: </strong>{{ from_time }}<br>
+    <strong>To: </strong>{{ to_time }}
+</span>
+
+{% endblock %}
