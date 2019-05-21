@@ -20,16 +20,27 @@
 .header{
   padding:5px;
 }
+
 img {
   width:100%;
   height:250px;
   object-fit:contain;
-  position: left;
+  position: relative;
   opacity: 1;
+  padding-bottom: 10px;
 }
 
-.topnav a {
-  float: left;
+.topnav ul {
+  display: inline-block; 
+}
+
+.topnav a{
+  padding: 25px;
+}
+
+.topnav {
+  position: relative;
+  margin: auto;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
@@ -37,13 +48,8 @@ img {
   font-size: 17px;
 }
 
-.top-nav {
-  position:center;
-}
-
 /* Style the links inside the navigation bar */
 .header a {
-  float: left;
   color: #f2f2f2;
   text-align: center;
   padding: 10px 16px;
@@ -62,10 +68,6 @@ img {
   color: white;
 }
 
-.header a.spacefiller {
-
-  color: black;
-}
 
 body {
   background:#ecf0f1; /*From http://flatuicolors.com/ */
