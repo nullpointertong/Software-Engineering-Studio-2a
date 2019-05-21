@@ -25,8 +25,14 @@ def search_sessions(request):
     # Process request
     if request.method == "POST":
         # Unpack and validate
-        filter_data = request.POST
-        # TODO: Field validation. If invalid raise error message saying invalid filter.
+        data = request.POST
+        # TODO: 
+        students = StudentAccount.objects.filter(
+            student_id__contains=data["student_id"],
+            first_name__contains=data["first_name"],
+            last_name__contains=data["last_name"],
+        )
+        
 
 def generate_session_booking(request):
     # Process POST request

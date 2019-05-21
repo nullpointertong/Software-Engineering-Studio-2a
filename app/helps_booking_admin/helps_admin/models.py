@@ -87,7 +87,7 @@ class Session(models.Model):
         on_delete=models.CASCADE
     )
     location  = models.CharField(max_length=30)
-    #session_time = models.DateTimeField()
+    date = models.DateField()
     start_time = models.DateTimeField(default=default_start_time)
     end_time = models.DateTimeField(default=default_start_time)
     has_finished  = models.BooleanField()

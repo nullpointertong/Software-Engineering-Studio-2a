@@ -3,7 +3,12 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ungettext_lazy as _
 from django.utils.translation import gettext_lazy as _g
 from django.contrib.auth.models import User
-from datetime import datetime
+from datetime import datetime, timedelta
+
+def default_start_time():
+    now = datetime.now()
+    start = now.replace(hour=23, minute=0, second=0, microsecond=0)
+    return start if start > now else start + timedelta(days=1)
 
 def parse_time_strings(time_string):
     '''Accepts comma separated string of datetimes and converts it into a list of datetimes'''
@@ -82,7 +87,9 @@ class Session(models.Model):
         on_delete=models.CASCADE
     )
     location  = models.CharField(max_length=30)
-    session_time = models.DateTimeField()
+    date = models.DateField()
+    start_time = models.DateTimeField(default=default_start_time)
+    end_time = models.DateTimeField(default=default_start_time)
     has_finished  = models.BooleanField()
     no_show = models.BooleanField()
 
