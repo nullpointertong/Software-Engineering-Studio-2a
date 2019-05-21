@@ -32,7 +32,9 @@ def search_sessions(request):
             first_name__contains=data["first_name"],
             last_name__contains=data["last_name"],
         )
-        
+        sessions = Session.objects.filter(
+            date__contains=data["date"]
+        )        
 
 def generate_session_booking(request):
     # Process POST request
