@@ -1,0 +1,44 @@
+.calendar {
+    width: 420px;
+    margin-left: 20px;
+    font-size: 12px;
+    table-layout: fixed;
+  }
+  
+  .calendar tr, .calendar td {
+    border: 1px solid #264ab5 !important;
+  }
+  
+  .calendar th {
+    padding: 10px;
+    text-align: center;
+    font-size: 13px;
+  }
+  
+  .calendar td {
+    text-align: center;
+    position: relative;
+    width: 14.2857%;
+    height: 20px;
+    padding: 10px 0px 10px 0px;
+  }
+
+  .calendar td:hover { background-color: #dae4ff !important }
+  .calendar td:active { background-color: #587adf !important }
+  
+  .month {
+    font-size: 15px;
+  }
+  
+  .date {
+    font-size: 16px;
+  }
+  
+  ul {
+    height: 100%;
+    padding: 0px 30px 0px 0px;
+  }
+  
+  a {
+    color: #17a2b8;
+  }

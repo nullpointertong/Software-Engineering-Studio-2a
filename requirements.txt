@@ -1,0 +1,4 @@
+Django==2.1.7
+django-autocomplete-light==3.3.4
+Jinja2==2.10.1
+virtualenv==16.4.3

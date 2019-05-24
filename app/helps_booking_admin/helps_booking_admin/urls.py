@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin, auth
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views import generic
 from helps_admin import views
 
 urlpatterns = [
@@ -22,15 +23,16 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.generate_session_booking, name='sessions'),
     path('sessions/', views.generate_session_booking, name='sessions'),
+    #path('', views.SessionView.as_view(), name='sessions'),
+    #path('sessions/', views.sessions, name='sessions'),
     path('workshops/', views.workshops, name='workshops'),
     path('advisors/', views.advisors, name='advisors'),
     path('students/', views.students, name='students'),
     path('waiting_list/', views.waiting_list, name='waiting_list'),
     path('reports/', views.reports, name='reports'),
-    path('template/', views.template, name='template'),
     path('email/', views.email, name='email'),
     path('room/', views.room, name='room'),
-    path('messages/', views.messages, name='messages'),
+    path('message/', views.message, name='message'),
     path('exit/', views.exit, name='exit'),
-    path('search_sessions/', views.search_sessions, name='sessionlist')
+    path('create_session/', views.create_session, name='create_session')
 ]
