@@ -13,7 +13,7 @@ from dal import autocomplete
 
 from helps_admin.models import Session, StudentAccount, StaffAccount
 from helps_admin.cal import Calendar
-from helps_admin.forms import StudentForm, StaffForm, CreateSessionForm
+from .forms import StudentForm, StaffForm, CreateSessionForm
 
 from .forms import BookSessionForm
 from .models import StudentAccount, StaffAccount, Session
@@ -154,7 +154,8 @@ def create_session(request):
             Session.objects.create(
                 student=matched_student[0],
                 staff=matched_advisor[0],
-                session_time=start_time, # This is starting time, still missing end time
+                start_time=start_time, # This is starting time, still missing end time
+                end_time=end_time,
                 location=context['default_location'],
                 has_finished=False,
                 no_show=False,)

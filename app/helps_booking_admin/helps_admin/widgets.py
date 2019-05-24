@@ -1,5 +1,5 @@
 from dal import autocomplete
-from helps_admin.models import StudentAccount, StaffAccount
+from .models import StudentAccount, StaffAccount
 
 
 class UserAutocomplete(autocomplete.Select2QuerySetView):

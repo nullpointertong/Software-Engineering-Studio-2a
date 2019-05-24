@@ -40,7 +40,7 @@ class Calendar(HTMLCalendar):
     # formats calendar by month
     def formatmonth(self, withyear=True, prev_month=None, next_month=None):
         # filter sessions by year and month
-        sessions = Session.objects.filter(session_time__year=self.year, session_time__month=self.month)
+        sessions = Session.objects.filter(start_time__year=self.year, start_time__month=self.month) # session_time -> start_time
         
         cal = '<table id="calendar" border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
         month_row = f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
