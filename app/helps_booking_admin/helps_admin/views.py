@@ -166,8 +166,12 @@ def create_session(request):
             context['page_title'] = 'Confirm Booking' if context['form_valid'] else 'Book a Session'
             context['calendar'] = mark_safe(SessionView.calendar.new_date(y, m, d).formatmonth(True, context['prev_month'], context['next_month']))
             return render(request, 'pages/layouts/create_session.html', context)
-    else:
-        return SessionView.as_view()(request)
+    elif request.method == "GET":
+        d = get_date(request.GET.get('month', None))
+        # Instantiate our calendar class with the selected day's year and date
+        cal = SessionView.calendar.new_date(d.year, d.month, d.day)
+
+        return SessionView.as_view()(request, {'calendar': cal})
             
 
 class SessionView(generic.ListView):

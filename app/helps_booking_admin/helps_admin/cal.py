@@ -47,7 +47,7 @@ class Calendar(HTMLCalendar):
         # <tr><th colspan="5" class="month">May 2019</th></tr>
         month_row = month_row.replace('colspan="7"', 'colspan="5"')
         if prev_month:
-            month_row = month_row.replace('<tr>', '<tr><td class="calendar td"><a href="/sessions?{}" style="display:block;height=100%;"> < </a></td>'.format(prev_month)).replace('</tr>', '<td class="calendar td"><a href="/sessions?{}" style="display:block;height=100%;"> > </a></td></tr>'.format(next_month))
+            month_row = month_row.replace('<tr>', '<tr><td class="calendar td"><a href="/create_session?{}" style="display:block;height=100%;"> < </a></td>'.format(prev_month)).replace('</tr>', '<td class="calendar td"><a href="/create_session?{}" style="display:block;height=100%;"> > </a></td></tr>'.format(next_month))
         cal += month_row
         # print(month_row)
         
