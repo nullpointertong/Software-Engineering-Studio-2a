@@ -149,12 +149,14 @@ def create_session(request):
         context['clean_page'] = False
 
         if data['confirm_booking'] == 'yes':
+            date_ = date(y, m, d)
             start_time = datetime(y, m, d, int(sh), int(sm), tzinfo=timezone.utc)
             end_time = datetime(y, m, d, int(eh), int(em), tzinfo=timezone.utc)
             Session.objects.create(
                 student=matched_student[0],
                 staff=matched_advisor[0],
-                start_time=start_time, # This is starting time, still missing end time
+                date=date_,
+                start_time=start_time,
                 end_time=end_time,
                 location=context['default_location'],
                 has_finished=False,
@@ -170,8 +172,7 @@ def create_session(request):
         d = get_date(request.GET.get('month', None))
         # Instantiate our calendar class with the selected day's year and date
         cal = SessionView.calendar.new_date(d.year, d.month, d.day)
-
-        return SessionView.as_view()(request, {'calendar': cal})
+        return SessionView.as_view()(request, {'calendar': cal, 'time_selection_visible': 'block'})
             
 
 class SessionView(generic.ListView):
