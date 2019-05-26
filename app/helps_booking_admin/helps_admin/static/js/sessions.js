@@ -90,3 +90,10 @@ function confirmBooking() {
 function toMonth(month) {
   month = month.split('month=')
 }
+
+
+function popupwindow(url, title) {
+  newwindow = window.open(url, title, 'height=200,width=150');
+  if (window.focus) {newwindow.focus()}
+  return false;
+}

@@ -2,21 +2,23 @@
 
 {% block extra_head %}
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'sessions/sessions-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin-session-style.css' %}">
     <script src="{% static 'sessions/sessions.js' %}"></script>
 {% endblock %}
 
-{% block master %}
+{% block content %}
 <body>
-    {% block content %}
-    <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'View')">Existing Sessions</button>
-        <button class="tablinks" onclick="openTab(event, 'Book')">New Session</button>
-    </div>
 
-    <div id="View" class="tabcontent">
-        <form action="search_sessions" method="POST">
-            <h5>Lookup existing bookings using the filters below</h5>
+    {% block sub %}
+    <div style="position:relative; float:right; margin-right:20px; width:10%">
+            <a class='nav-link' href="{% url 'create_session' %}"><span>Book new session</span></a>
+    </div>
+    
+    <h1>Sessions page</h1>
+    <div id="View" style="height:20%">
+        <form action="/search_sessions/" method="POST">
+            {% csrf_token %}
+            <h5>Search bookings by filters</h5>
             <div>
                 <p>Student first name
                     <input name="first_name" type="text">
@@ -41,69 +43,25 @@
         </form>
     </div>
 
-    <div id="Book" class="tabcontent">
-        <form action="" name="BookSessionForm" method="POST">
-            {% csrf_token %}
-            {{ book_session_form.as_p }}
-            <input type="submit" value="Submit">
-        </form>
-    </div>
-
-    <!--
-        <div id="Book" class="tabcontent">
-            <div style="margin-left: 10px;margin-bottom: 10px">
-                <h1>Book a Session</h1>
-                <div style="display:inline-block;">
-                    <p>Date: </p>
-                    <input id="date" type="date" value="{{ datetime }}" required>
-                </div>
-                
-                <div style="display:inline-block;">
-                    <p>Starting: </p>
-                    <input id="hour-start" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="9:00" required>
-                </div>
-                
-                <div style="display:inline-block;">
-                    <p>Ending: </p>
-                    <input id="hour-end" type="time" min="{{ min_hour }}" max="{{ max_hour }}" value="{{ max_hour }}" required>
-                </div>
-            </div>
-            <div style="display:inline-block;margin-left:10px">
-                    <p>Student</p>
-                    <form action="/action_page.php" method="POST">
-                        <input list="students" name="student-search">
-                        <datalist id="students">
-                        <option value="Richard">
-                        <option value="Aditya">
-                        <option value="Nathan">
-                        <option value="Nic">
-                        <option value="The Duc">
-                        <option value="Alex">
-                        </datalist>
-                    </form>
-                <p>Advisor </p>
-                <form action="/action_page.php" method="POST">
-                    <input list="advisors" name="advisor-search">
-                    <datalist id="advisors">
-                    <option value="Richard">
-                    <option value="Aditya">
-                    <option value="Nathan">
-                    <option value="Nic">
-                    <option value="The Duc">
-                    <option value="Alex">
-                    </datalist>
-                </form>
-            </div>
-            <div>
-                <button style="display:inline;margin:10px">Book</button>
-            </div>
-        </div>
-    -->
-    <h1>Sessions page</h1>
-    <div style="position:relative; float:right; margin-right:20px">
-        <a class='nav-link' href="{% url 'create_session' %}"><span>Book new session</span></button>
-        </div>
-
+    {% endblock %}
+    
+    {% block booking_list %}
+    <table class="session_table">
+        <tr>
+            <td>Session ID</td>
+        </tr>
+        {% if filtered_sessions %}
+            {% for session in filtered_sessions %}
+                <tr>
+                    <td> {{ session }} </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+           <tr><td>
+                <p> No sessions found. </p>
+           </td></tr>
+        {% endif %}
+    </table>
     {% endblock %}
 </body>
 {% endblock %} 

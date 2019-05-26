@@ -22,7 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', views.generate_session_booking, name='sessions'),
-    #path('sessions/', views.generate_session_booking, name='sessions'),
     path('', views.SessionView.as_view(), name='sessions'),
     path('sessions/', views.sessions, name='sessions'),
     path('workshops/', views.workshops, name='workshops'),
@@ -34,5 +33,6 @@ urlpatterns = [
     path('room/', views.room, name='room'),
     path('message/', views.message, name='message'),
     path('exit/', views.exit, name='exit'),
-    path('create_session/', views.create_session, name='create_session')
+    path('create_session/', views.create_session, name='create_session'),
+    path('search_sessions/', views.search_sessions, name='search_sessions')
 ]

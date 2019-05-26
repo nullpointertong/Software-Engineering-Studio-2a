@@ -75,8 +75,7 @@ class DateListField(models.Field):
     
 
 class Session(models.Model):
-
-    session_ID = models.CharField(max_length=8, primary_key=True)
+    session_ID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # One StudentAccount has many Sessions
     student = models.ForeignKey(
         'StudentAccount',
@@ -96,7 +95,6 @@ class Session(models.Model):
 
     def __str__(self):
         return "\n".join([
-            "Session ID: {}".format(self.session_ID),
             "Staff: {}".format(self.staff),
             "Student: {}".format(self.student)
         ])

@@ -34,18 +34,31 @@ def user_is_valid(_user):
 
 def search_sessions(request):
     # Process request
+    sessions = Session.objects.all()
     if request.method == "POST":
         # Unpack and validate
         data = request.POST
-        # TODO: 
-        students = StudentAccount.objects.filter(
-            student_id__contains=data["student_id"],
-            first_name__contains=data["first_name"],
-            last_name__contains=data["last_name"],
-        )
-        sessions = Session.objects.filter(
+        
+        students = StudentAccount.objects.all()
+        if data['student_id']:
+            students = students.filter(student_id__contains=data["student_id"])
+        if data['first_name']:
+            students = students.filter(first_name__contains=data["first_name"])
+        if data['last_name']:
+            students = students.filter(last_name__contains=data["last_name"])
+
+        sessions = sessions.filter(
             date__contains=data["date"]
-        )        
+        )
+        print(len(sessions))
+        context = {
+            'filtered_sessions': sessions
+        }
+        return render(request, "pages/layouts/sessions.html", context)
+    context = {
+        'filtered_sessions': sessions
+    }
+    return render(request, "pages/layouts/sessions.html", context)
 
 def generate_session_booking(request):
     # Process POST request
@@ -160,7 +173,7 @@ def create_session(request):
                 end_time=end_time,
                 location=context['default_location'],
                 has_finished=False,
-                no_show=False,)
+                no_show=False)
             context['from_time'] = start_time
             context['to_time'] = end_time
             return render(request, 'pages/layouts/session_booked.html', context)
@@ -218,7 +231,7 @@ class SessionView(generic.ListView):
 
 
 def sessions(request):
-    return render(request, 'pages/layouts/sessions.html')
+    return render(request, 'pages/layouts/sessions.html', { 'filtered_objecst': Session.objects.all() })
 
 def get_date(req_day):
     if req_day:

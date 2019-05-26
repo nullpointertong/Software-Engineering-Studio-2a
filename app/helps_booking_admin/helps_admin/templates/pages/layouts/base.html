@@ -33,12 +33,13 @@
     
     {% include 'pages/layouts/navbar.html' %}
     <div style="padding-left:10px">
-    {% if user.is_authenticated %}
-      <p>Welcome, {{ user.get_username }}</p>  
-    {% else %}
-      <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>   
-    {% endif %}
+      {% if user.is_authenticated %}
+        <p>Welcome, {{ user.get_username }}</p>  
+        {% block content %}{% endblock %}
+      {% else %}
+        <p><a href="{% url 'login'%}?next={{request.path}}">Login</a></p>
+        <p>Please log in to see the content of this page.</p>
+      {% endif %}
     </div>
-    {% block content %}{% endblock %}
 </body>
 </html>
