@@ -18,7 +18,7 @@ Alex Bell
 
 ## Dependencies
 
-You'll need to install `python3`, `pip`, `virtualenv`, and `django`.
+You'll need to install `python3`, `pip`, `virtualenv`,  `django-session-timeout` and `django`.
 
 ## Virtual Environment
 
