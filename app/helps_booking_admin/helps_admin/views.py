@@ -9,11 +9,9 @@ from django.views import generic
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 
-from dal import autocomplete
 
 from helps_admin.models import Session, StudentAccount, StaffAccount
 from helps_admin.cal import Calendar
-from .forms import StudentForm, StaffForm, CreateSessionForm
 
 from .forms import BookSessionForm
 from .models import StudentAccount, StaffAccount, Session
@@ -48,17 +46,44 @@ def search_sessions(request):
             students = students.filter(last_name__contains=data["last_name"])
 
         sessions = sessions.filter(
-            date__contains=data["date"]
+            date__contains=data["date"],
+            student__in=students
         )
         print(len(sessions))
         context = {
             'filtered_sessions': sessions
         }
         return render(request, "pages/layouts/sessions.html", context)
+    
+    sesid = request.GET.get('sessionid', None)
+    if sesid is None:
+        context = {
+            'filtered_sessions': sessions
+        }
+        return render(request, "pages/layouts/sessions.html", context)
+    session = sessions.filter(session_ID=sesid)[0]
+    sh, sm = session.start_time.strftime('%H %M').split()
+    eh, em = session.end_time.strftime('%H %M').split()
     context = {
-        'filtered_sessions': sessions
+        'session': session.session_ID,
+        'default_date': session.date.strftime("%Y-%m-%d"),
+        'default_student': session.student.student_id,
+        'default_advisor': session.staff.staff_id,
+        'default_location': session.location,
+        'student_info': session.student.first_name + ' ' + session.student.last_name,
+        'advisor_info': session.staff.first_name + ' ' + session.staff.last_name,
+        'opt_hours': mark_safe(SessionConstants.opt_hours.replace("value='%s'" % sh, "value='%s' selected='selected'" % sh)),
+        'opt_minutes': mark_safe(SessionConstants.opt_minutes.replace("value='%s'" % sm, "value='%s' selected='selected'" % sm)),
+        'opt_hours_1': mark_safe(SessionConstants.opt_hours.replace("value='%s'" % eh, "value='%s' selected='selected'" % eh)),
+        'opt_minutes_1': mark_safe(SessionConstants.opt_minutes.replace("value='%s'" % em, "value='%s' selected='selected'" % em)),
+        'form_valid': True,
+        'time_selection_visible': 'block',
+        'form_type': session.session_ID,
+        'book_or_edit': 'Update',
+        'new_sess': False
     }
-    return render(request, "pages/layouts/sessions.html", context)
+
+    return render(request, "pages/layouts/edit_session.html", context)
 
 def generate_session_booking(request):
     # Process POST request
@@ -86,14 +111,21 @@ def login_request(request):
     return render(request, 'registration/login.html', context)
 
 
-def create_session(request):
+class SessionConstants:
+    opt_hours = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(7, 21)])
+    opt_minutes = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(0, 60, 15)])
+    today = datetime.today()
+    calendar = Calendar(today.year, today.month, today.day)
+
+
+def edit_session(request):
     if request.method == "POST":
         data = request.POST
+        # print (data['session_id'])
         context = {}
         context['errors'] = []
         context['form_valid'] = True
         context['time_selection_visible'] = 'block'
-        # print(data)
         # Session date
         today = date.today()
         date_ = data['req_sess_date']
@@ -106,10 +138,107 @@ def create_session(request):
         sh, sm = data['req_sess_sh'], data['req_sess_sm']
         # Ending hour, minute, am/pm
         eh, em = data['req_sess_eh'], data['req_sess_em']
-        hour_options = SessionView.opt_hours.replace("value='%s'" % sh, "value='%s' selected='selected'" % sh) # Set default as the selected value
-        minute_options = SessionView.opt_minutes.replace("value='%s'" % sm, "value='%s' selected='selected'" % sm)
-        hour_options_1 = SessionView.opt_hours.replace("value='%s'" % eh, "value='%s' selected='selected'" % eh)
-        minute_options_1 = SessionView.opt_minutes.replace("value='%s'" % em, "value='%s' selected='selected'" % em)
+        hour_options = SessionConstants.opt_hours.replace("value='%s'" % sh, "value='%s' selected='selected'" % sh) # Set default as the selected value
+        minute_options = SessionConstants.opt_minutes.replace("value='%s'" % sm, "value='%s' selected='selected'" % sm)
+        hour_options_1 = SessionConstants.opt_hours.replace("value='%s'" % eh, "value='%s' selected='selected'" % eh)
+        minute_options_1 = SessionConstants.opt_minutes.replace("value='%s'" % em, "value='%s' selected='selected'" % em)
+        context.update(
+            {
+                'opt_hours': mark_safe(hour_options),
+                'opt_minutes': mark_safe(minute_options),
+                'opt_hours_1': mark_safe(hour_options_1),
+                'opt_minutes_1': mark_safe(minute_options_1)
+            }
+        )
+        selected_date = date(y, m, d)
+        context['prev_month'] = prev_month(selected_date)
+        context['next_month'] = next_month(selected_date)
+
+        context['default_location'] = data['req_location']
+        
+        student_query = data['req_student_id']
+        advisor_query = data['req_advisor_id']
+
+        if student_query.isdigit():
+            matched_student = StudentAccount.objects.filter(student_id__exact=student_query)
+            if len(matched_student) == 0:
+                context['form_valid'] = False
+                context['student_info'] = "NOT FOUND"
+                context['student_info_color'] = "color: red"
+                context['errors'] += 'Student ID not registered with HELPS.',
+            else:
+                context['student_info'] = matched_student[0].last_name.upper() + ', ' + matched_student[0].first_name
+        else:
+            context['form_valid'] = False
+            context['student_info'] = "INVALID INPUT"
+            context['student_info_color'] = "color: red"
+            context['errors'] += 'Student ID must be numerical.',
+
+        if advisor_query.isdigit():
+            matched_advisor = StaffAccount.objects.filter(staff_id__exact=advisor_query)
+            if len(matched_advisor) == 0:
+                context['form_valid'] = False
+                context['advisor_info'] = "NOT FOUND"
+                context['advisor_info_color'] = "color: red"
+                context['errors'] += 'Advisor ID not registered with HELPS.',
+            else:
+                context['advisor_info'] = matched_advisor[0].last_name.upper() + ', ' + matched_advisor[0].first_name
+        else:
+            context['form_valid'] = False
+            context['advisor_info'] = "INVALID INPUT"
+            context['advisor_info_color'] = "color: red"
+            context['errors'] += 'Staff ID must be numerical.',
+
+        context['default_student'] = student_query
+        context['default_advisor'] = advisor_query
+        context['clean_page'] = False
+
+        if context['form_valid'] and data['confirm_booking'] == 'yes':
+            date_ = date(y, m, d)
+            start_time = datetime(y, m, d, int(sh), int(sm), tzinfo=timezone.utc)
+            end_time = datetime(y, m, d, int(eh), int(em), tzinfo=timezone.utc)
+            session = Session.objects.filter(session_ID=data['session_id'])[0]
+            session.student = matched_student[0]
+            session.staff = matched_advisor[0]
+            session.date = date_
+            session.start_time = start_time
+            session.end_time = end_time
+            session.location = context['default_location']
+            session.has_finished = False
+            session.no_show = False
+            session.save()
+            context['from_time'] = start_time
+            context['to_time'] = end_time
+            context['default_date'] = date_
+            context['confirm_text'] = 'Session Updated Successfully.'
+            return render(request, 'pages/layouts/session_booked.html', context)
+        else:
+            context['session'] = data['session_id']
+            return render(request, 'pages/layouts/edit_session.html', context)
+
+def create_session(request):
+    if request.method == "POST":
+        data = request.POST
+        context = {}
+        context['errors'] = []
+        context['form_valid'] = True
+        context['time_selection_visible'] = 'block'
+        # Session date
+        today = date.today()
+        date_ = data['req_sess_date']
+        context['default_date'] = date_
+        y, m, d = map(int, date_.split('-'))
+        if date(y, m, d) < today:
+            context['form_valid'] = False
+            context['errors'] += 'Date cannot be in the past!',
+        # Starting hour, minute, am/pm
+        sh, sm = data['req_sess_sh'], data['req_sess_sm']
+        # Ending hour, minute, am/pm
+        eh, em = data['req_sess_eh'], data['req_sess_em']
+        hour_options = SessionConstants.opt_hours.replace("value='%s'" % sh, "value='%s' selected='selected'" % sh) # Set default as the selected value
+        minute_options = SessionConstants.opt_minutes.replace("value='%s'" % sm, "value='%s' selected='selected'" % sm)
+        hour_options_1 = SessionConstants.opt_hours.replace("value='%s'" % eh, "value='%s' selected='selected'" % eh)
+        minute_options_1 = SessionConstants.opt_minutes.replace("value='%s'" % em, "value='%s' selected='selected'" % em)
         context.update(
             {
                 'opt_hours': mark_safe(hour_options),
@@ -176,58 +305,139 @@ def create_session(request):
                 no_show=False)
             context['from_time'] = start_time
             context['to_time'] = end_time
+            context['confirm_text'] = 'New Session Booked Successfully.'
             return render(request, 'pages/layouts/session_booked.html', context)
         else:
             context['page_title'] = 'Confirm Booking' if context['form_valid'] else 'Book a Session'
-            context['calendar'] = mark_safe(SessionView.calendar.new_date(y, m, d).formatmonth(True, context['prev_month'], context['next_month']))
+            context['book_or_edit'] = 'Book'
+            context['calendar'] = mark_safe(SessionConstants.calendar.new_date(y, m, d).formatmonth(True, context['prev_month'], context['next_month']))
             return render(request, 'pages/layouts/create_session.html', context)
     elif request.method == "GET":
-        d = get_date(request.GET.get('month', None))
-        # Instantiate our calendar class with the selected day's year and date
-        cal = SessionView.calendar.new_date(d.year, d.month, d.day)
-        return SessionView.as_view()(request, {'calendar': cal, 'time_selection_visible': 'block'})
-            
+        # context = super().get_context_data(**kwargs)
 
-class SessionView(generic.ListView):
-    model = Session
-    template_name = 'pages/layouts/create_session.html'
-    form = CreateSessionForm()
-    # Drop down options for hours and minutes
-    opt_hours = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(7, 21)])
-    opt_minutes = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(0, 60, 15)])
-    today = datetime.today()
-    calendar = Calendar(today.year, today.month, today.day)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        context = {}
         context.update({
             'page_title': 'Book a Session',
             'default_date': datetime.now().strftime('%Y-%m-%d'),
             'default_student': '',
             'default_advisor': '',
             'default_location': '',
-            'opt_hours': mark_safe(SessionView.opt_hours),
-            'opt_minutes': mark_safe(SessionView.opt_minutes),
-            'opt_hours_1': mark_safe(SessionView.opt_hours),
-            'opt_minutes_1': mark_safe(SessionView.opt_minutes),
+            'opt_hours': mark_safe(SessionConstants.opt_hours),
+            'opt_minutes': mark_safe(SessionConstants.opt_minutes),
+            'opt_hours_1': mark_safe(SessionConstants.opt_hours),
+            'opt_minutes_1': mark_safe(SessionConstants.opt_minutes),
             'time_selection_visible': 'none',
             'clean_page': True,
             'form_valid': False,
             'student_info': '',
             'advisor_info': ''
         })
-        d = get_date(self.request.GET.get('month', None))
+        d = get_date(request.GET.get('month', None))
         # Instantiate our calendar class with the selected day's year and date
-        cal = SessionView.calendar.new_date(d.year, d.month, d.day)
+        cal = SessionConstants.calendar.new_date(d.year, d.month, d.day)
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         # print (context)
         html_cal = cal.formatmonth(True, context['prev_month'], context['next_month'])
 
         context['calendar'] = mark_safe(html_cal)
-        context['form'] = SessionView.form
+        # context['form'] = SessionConstants.form
+        context['filtered_sessions'] = Session.objects.all()
+        # Instantiate our calendar class with the selected day's year and date
+        cal = SessionConstants.calendar.new_date(d.year, d.month, d.day)
+        context['time_selection_visible'] = 'block'
+        return render(request, 'pages/layouts/create_session.html', context)
+            
 
-        return context
+def delete_session(request):
+    if request.method == 'POST':
+        data = request.POST
+        ses_id = data['session_id']
+        try:
+            session = Session.objects.filter(session_ID=ses_id)[0]
+            student_info = f'{session.student.last_name}, {session.student.first_name}'
+            advisor_info = f'{session.staff.last_name}, {session.staff.first_name}'
+            context = {
+                'confirm_text': 'Delete this booking?',
+                'student_info': student_info,
+                'default_student': session.student.student_id,
+                'advisor_info': advisor_info,
+                'default_advisor': session.staff.staff_id,
+                'default_date': session.date,
+                'default_location': session.location,
+                'from_time': session.start_time.strftime('%I:%M %p'),
+                'to_time': session.end_time.strftime('%I:%M %p'),
+                'session': ses_id,
+                'deleting': True
+            }
+            return render(request, 'pages/layouts/session_booked.html', context)
+        except:
+            return render(request, 'error.html', {})
+    else:
+        sessionid = request.GET.get('sessionid', None)
+        if sessionid is not None:
+                session = Session.objects.filter(session_ID=sessionid)[0]
+                student_info = f'{session.student.last_name}, {session.student.first_name}'
+                advisor_info = f'{session.staff.last_name}, {session.staff.first_name}'
+                context = {
+                    'confirm_text': 'Booking deleted.',
+                    'student_info': student_info,
+                    'default_student': session.student.student_id,
+                    'advisor_info': advisor_info,
+                    'default_advisor': session.staff.staff_id,
+                    'default_date': session.date,
+                    'default_location': session.location,
+                    'from_time': session.start_time.strftime('%I:%M %p'),
+                    'to_time': session.end_time.strftime('%I:%M %p'),
+                    'session': sessionid,
+                    'deleting': False
+                }
+                session.delete()
+                return render(request, 'pages/layouts/session_booked.html', context)
+            # except Exception as e:
+            #     print(e)
+            #     return render(request, 'error.html', {})
+        return render(request, 'error.html', {})
+# class SessionConstants(generic.ListView):
+#     template_name = 'pages/layouts/create_session.html'
+#     form = CreateSessionForm()
+#     # Drop down options for hours and minutes
+#     opt_hours = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(7, 21)])
+#     opt_minutes = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(0, 60, 15)])
+#     today = datetime.today()
+#     calendar = Calendar(today.year, today.month, today.day)
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context.update({
+#             'page_title': 'Book a Session',
+#             'default_date': datetime.now().strftime('%Y-%m-%d'),
+#             'default_student': '',
+#             'default_advisor': '',
+#             'default_location': '',
+#             'opt_hours': mark_safe(SessionConstants.opt_hours),
+#             'opt_minutes': mark_safe(SessionConstants.opt_minutes),
+#             'opt_hours_1': mark_safe(SessionConstants.opt_hours),
+#             'opt_minutes_1': mark_safe(SessionConstants.opt_minutes),
+#             'time_selection_visible': 'none',
+#             'clean_page': True,
+#             'form_valid': False,
+#             'student_info': '',
+#             'advisor_info': ''
+#         })
+#         d = get_date(self.request.GET.get('month', None))
+#         # Instantiate our calendar class with the selected day's year and date
+#         cal = SessionConstants.calendar.new_date(d.year, d.month, d.day)
+#         context['prev_month'] = prev_month(d)
+#         context['next_month'] = next_month(d)
+#         # print (context)
+#         html_cal = cal.formatmonth(True, context['prev_month'], context['next_month'])
+
+#         context['calendar'] = mark_safe(html_cal)
+#         context['form'] = SessionConstants.form
+#         context['filtered_sessions'] = Session.objects.all()
+
+#         return context
 
 
 def sessions(request):

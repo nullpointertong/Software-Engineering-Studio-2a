@@ -1,3 +1,7 @@
+$(document).ready(function(){
+  $('sesssion_table').DataTable();
+});
+
 var selectedDate = null;
 
 function selectDate (formatted_date) {
@@ -91,9 +95,16 @@ function toMonth(month) {
   month = month.split('month=')
 }
 
+function popup(mylink, windowname) { 
+  if (! window.focus)return true;
+  var href;
+  if (typeof(mylink) == 'string') href=mylink;
+  else href=mylink.href; 
+  window.open(href, windowname, 'width=400,height=200,scrollbars=yes'); 
+  return false; 
+}
 
-function popupwindow(url, title) {
-  newwindow = window.open(url, title, 'height=200,width=150');
-  if (window.focus) {newwindow.focus()}
-  return false;
+function deleteBooking(sesid) {
+  var form = document.forms['delete_session'];
+  form.submit();
 }

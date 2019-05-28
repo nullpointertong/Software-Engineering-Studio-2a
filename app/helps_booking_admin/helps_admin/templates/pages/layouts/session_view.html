@@ -1,0 +1,33 @@
+{% extends "pages/layouts/base.html" %}
+
+{% block extra_head %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin-session-style.css' %}">
+{% endblock %}
+
+{% block content %}
+<body>
+    <h2>Edit Session</h2>
+    {% if session %}
+        <table class="session_table" style="width:80%">
+            <tr>
+                <td> Student </td>
+                <td> Advisor </td>
+                <td> Time </td>
+                <td> Location </td>
+            </tr>
+            
+                <tr>
+                    <td> {{ session.student }} </td>
+                    <td> {{ session.staff }} </td>
+                    <td> {{ session.start_time }} - {{ session.end_time }} </td>
+                    <td> {{ session.location }} </td>
+                </tr>
+
+        </table>
+    {% else %}
+        <p> Session doesn't exist. </p>
+        <a href="/sessions/"> Back </a>>
+    {% endif %}
+</body>
+{% endblock %} 

@@ -6,10 +6,10 @@
     <script src="{% static 'js/sessions.js/' %}"></script>
     
     <div style="margin-left: 10px;margin-bottom: 10px">
-        <h1>{{ page_title }}</h1>
+        <h1>Edit Session</h1>
     </div>
     <div style="width:100%;">
-        <form id="create_session" action="/create_session/" onsubmit="return book();" method="POST">
+        <form id="create_session" action="/edit_session/" onsubmit="return book();" method="POST">
             {% csrf_token %}
         <div style="float:left; margin-left:10px; margin-bottom:10px;position:relative">
             <a style="margin-bottom:10px">Student</a>
@@ -66,25 +66,32 @@
             <div>
                 <input id='confirm_hidden' type="hidden" name="confirm_booking" value="no" />
                 <input id='editing_booking' type="hidden" name="edit_booking" value="{{ form_type }}" />
+                <input id='session_id' type="hidden" name="session_id" value="{{ session }}" />
                 <button id="check-button" style="margin:10px; position:relative">Check validity</button>
                 <br>
                 {% if not clean_page %}
                 {% if form_valid %}
-                    <div id='booking_span'>
-                        <span>The information is valid. Press "Book" to confirm.</span>
-                        <button type=button onclick="confirmBooking();" style="margin:10px; position:relative">{{ book_or_edit }}</button>
-                    </div>
+                <div id='booking_span'>
+                    <span>Press "Update" to confirm your changes.</span>
+                    <button type=button onclick="confirmBooking();" style="margin:10px; position:relative">Update</button>
+                    
+                </div>
                 {% else %}
-                    <table style="display: block;position:relative;background-color:khaki"><th>INVALID BOOKING<th>
-                        {% for e in errors %}
-                        <tr><td style="color:red">{{ e }}</td></tr>
-                        {% endfor %}
-                    </table>
+                <table style="display:flex;position:relative;background-color:khaki;float: none"><th>INVALID BOOKING<th>
+                    {% for e in errors %}
+                    <tr><td style="color:red">{{ e }}</td></tr>
+                    {% endfor %}
+                </table>
                 {% endif %}
                 {% endif %}
             </div>
         </div>
-        </form> 
+    </form> 
+    
+    <form id="delete_session" action="/delete_session/" method="POST">{% csrf_token %}
+        <button type=submit style="margin:10px; position:relative; background-color: red;color:white">Delete booking</button>
+        <input id='session_id' type="hidden" name="session_id" value="{{ session }}" />
+    </form>
     </div>
     
 </body>

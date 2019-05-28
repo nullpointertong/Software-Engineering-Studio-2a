@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _g
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 
+
 def default_start_time():
     now = datetime.now()
     start = now.replace(hour=23, minute=0, second=0, microsecond=0)
@@ -146,7 +147,7 @@ class StaffAccount(models.Model):
     educational_background = models.CharField(max_length=64)
 
     def __str__(self):
-        return 'ID: {} - {}{}{}'.format(
+        return '{1} {2} {3} ({0})'.format(
             self.staff_id,
             self.first_name,
             " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else " ",
@@ -176,10 +177,10 @@ class StudentAccount(models.Model):
     educational_background = models.CharField(max_length=30)
 
     def __str__(self):
-        return 'ID: {} - {}{}{}'.format(
+        return '{1} {2} {3} ({0})'.format(
             self.student_id,
             self.first_name,
-            " (Pref: " + self.preferred_first_name + ") " if self.preferred_first_name != "" else " ",
+            " (" + self.preferred_first_name + ") " if self.preferred_first_name != "" else " ",
             self.last_name
         )
 

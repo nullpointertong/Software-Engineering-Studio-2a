@@ -1,13 +1,18 @@
 {% extends "pages/layouts/base.html" %}
 
 {% block content %}
-<h1>New Session Booked Successfully.</h1>
+<h1>{{ confirm_text }}</h1>
 <span style='display:block; margin-left: 20px'>
     <strong>Student: </strong>{{ student_info }} ({{ default_student }})<br>
     <strong>Advisor: </strong>{{ advisor_info }} ({{ default_advisor }})<br>
     <strong>Location: </strong>{{ default_location }}<br>
+    <strong>Date: </strong>{{ default_date }}<br>
     <strong>From: </strong>{{ from_time }}<br>
-    <strong>To: </strong>{{ to_time }}
+    <strong>To: </strong>{{ to_time }}<br>
 </span>
+{% if deleting %}
+    <button type='button' style="margin:10px; position:relative; background-color: red;color:white"><a href="/delete_session?sessionid={{ session }}" style="text-decoration: none; color:white">Delete</a></button>
+    <button onclick="window.history.back();">Cancel</button>
+{% endif %}
 
 {% endblock %}

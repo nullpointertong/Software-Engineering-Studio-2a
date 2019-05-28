@@ -4,8 +4,6 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin import widgets
-from dal import autocomplete
-
 from helps_admin.models import StudentAccount, StaffAccount, Session
 
 class BookSessionForm(forms.ModelForm):
@@ -50,30 +48,3 @@ class CreateSessionForm(forms.Form):
         # Remember to always return the cleaned data.
         return data
 
-
-class StudentForm(forms.ModelForm):
-    class Meta:
-        model = StudentAccount
-        fields = ('__all__')
-        widgets = {
-            'student': autocomplete.ModelSelect2(
-                url='student-autocomplete',
-                attrs={
-                    'data-placeholder': 'Enter name or student ID...'
-                }
-            )
-        }
-
-
-class StaffForm(forms.ModelForm):
-    class Meta:
-        model = StaffAccount
-        fields = ('__all__')
-        widgets = {
-            'staff': autocomplete.ModelSelect2(
-                url='staff-autocomplete',
-                attrs={
-                    'data-placeholder': 'Enter name or staff ID...',
-                }
-            )
-        }

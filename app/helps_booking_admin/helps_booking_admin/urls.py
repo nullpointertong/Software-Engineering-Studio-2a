@@ -21,9 +21,8 @@ from helps_admin import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.generate_session_booking, name='sessions'),
-    path('', views.SessionView.as_view(), name='sessions'),
-    path('sessions/', views.sessions, name='sessions'),
+    path('', views.search_sessions, name='sessions'),
+    path('sessions/', views.search_sessions, name='sessions'),
     path('workshops/', views.workshops, name='workshops'),
     path('advisors/', views.advisors, name='advisors'),
     path('students/', views.students, name='students'),
@@ -34,5 +33,7 @@ urlpatterns = [
     path('message/', views.message, name='message'),
     path('exit/', views.exit, name='exit'),
     path('create_session/', views.create_session, name='create_session'),
+    path('edit_session/', views.edit_session, name='edit_session'),
+    path('delete_session/', views.delete_session, name='delete_session'),
     path('search_sessions/', views.search_sessions, name='search_sessions')
 ]
