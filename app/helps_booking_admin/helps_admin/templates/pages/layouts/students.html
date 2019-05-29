@@ -1,5 +1,75 @@
 {% extends "pages/layouts/base.html" %}
 
-{% block content %}
-<h1>Students page</h1>
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin-session-style.css' %}">
+    <script src="{% static 'sessions/sessions.js' %}"></script>
 {% endblock %}
+
+{% block content %}
+<body>
+
+    {% block sub %}
+    <div style="position:relative; float:right; margin-right:20px; width:10%">
+            <a class='nav-link' href="{% url 'create_session' %}"><span>Book new session</span></a>
+    </div>
+    
+    <h1>Students page</h1>
+    <div id="View" style="height:20%">
+        <form action="/students/" method="POST">
+            {% csrf_token %}
+            <h5>Filter students</h5>
+            <div>
+                <p>Student first name
+                    <input name="first_name" type="text">
+                </p>
+                <p>Student last name
+                    <input name="last_name" type="text">
+                </p>
+                <p>Student ID
+                    <input name="student_id" type="text">
+                </p>
+                <p>Faculty
+                    <input name="faculty" type="text">
+                </p>
+            </div>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+    {% endblock %}
+    
+    {% block booking_list %}
+    <h2> Students </h2>
+
+    <table id="student_table" class="table table-striped" style="width:80%">
+        <tr>
+            <td> Student ID </td>
+            <td> First Name </td>
+            <td> Last Name </td>
+            <td> D.O.B </td>
+            <td> Faculty </td>
+            <td>  </td>
+        </tr>
+        {% if student_list %}
+            {% for student in student_list %}
+                <tr>
+                    <td> {{ student.student_id }} </td>
+                    <td> {{ student.first_name }} </td>
+                    <td> {{ student.last_name }} </td>
+                    <td> {{ student.DOB }} </td>
+                    <td> {{ student.faculty }} </td>
+                    <td><a href="/students/?studentid={{ student.student_id }}"> View/Edit </a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+           <tr><td>
+                <p> No students found. </p>
+           </td></tr>
+        {% endif %}
+    </table>
+    {% endblock %}
+</body>
+{% endblock %} 

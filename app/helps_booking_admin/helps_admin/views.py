@@ -477,6 +477,22 @@ def advisors(request):
 
 def students(request):
     context = {'students_page': 'active'}
+    student_list = StudentAccount.objects.all()
+    if request.method == "POST":
+        data = request.POST
+        student_list = student_list.filter(
+            student_id__contains=data['student_id'],
+            first_name__contains=data['first_name'],
+            last_name__contains=data['last_name'],
+            faculty__contains=data['faculty'],
+        )
+    else:   
+        studentid = request.GET.get('studentid', None)
+        if studentid is not None:
+            student_list = student_list.filter(student_id=studentid)
+    context = {
+        'student_list': student_list
+    }
     return render(request, 'pages/layouts/students.html', context)
 
 def waiting_list(request):
