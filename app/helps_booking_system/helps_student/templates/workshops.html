@@ -2,11 +2,12 @@
 <html lang="en">
 
 {% load static %}
+{% load helps_extras %}
 
 <head>
   <meta charset="UTF-8">
   <title>UTS:HELP's Workshop Registration</title>
-  <link rel="stylesheet" type=text/css href="{% static 'css\workshop-style.css' %}">
+  <link rel="stylesheet" type=text/css href="{% static 'css/workshop-style.css' %}">
 </head>
 
 <body>
@@ -28,35 +29,62 @@
 
   <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
   <br>
-  <table class="table">
-    <tr>
-      <th>Topics</th>
-      <th>Start Date</th>
-      <th>Finish Date</th>
-      <th>Days</th>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>No. Sessions</th>
-      <th>Places Avail.</th>
-      <th>Details</th>
-    </tr>
-    <tr>
-      <td>Introduction to Django</td>
-      <td>10/04/2019</td>
-      <td>10/04/2019</td>
-      <td>Wed</td>
-      <td>1200</td>
-      <td>1400</td>
-      <td>1</td>
-      <td>50</td>
-      <td>
-        <a href="http://example.com">
-        Details
-        </a>
+  <div style="overflow-x:auto;">
+    <table class="table">
+      <tr>
+        <th>Topics</th>
+        <th>Start Date</th>
+        <th>Finish Date</th>
+        <th>Days</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Room</th>
+        <th>No. Sessions</th>
+        <th>Places Avail.</th>
+        <th>Details</th>
+      </tr>
+      {% if query_set.count > 0 %}
+        {% for item in query_set %}
+        <tr class="workshoprow">
+          <td>{{ item.skill_set_name }}</td>
+          <td>{{ item.start_date }}</td>
+          <td>{{ item.end_date }}</td>
+          <td>{{ item.days }}</td>
+          <td>{{ item.start_time }}</td>
+          <td>{{ item.end_time }}</td>
+          <td>{{ item.room }}</td>
+          <td>{{ item.no_of_sessions }}</td>
+          {% with enrolled_count=item.students.count %}
+            <td>{{ item.max_students|subtract:enrolled_count }}</td>
+          {% endwith %}
+          <td>
+            Details here
+          </td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr class="workshoprow">
+          <td colspan="10">There are no Workshops currently available.</td>
+        </tr>
+      {% endif %}
+      <!-- <tr>
+        <td>Introduction to Django</td>
+        <td>10/04/2019</td>
+        <td>10/04/2019</td>
+        <td>Wed</td>
+        <td>1200</td>
+        <td>1400</td>
+        <td>1</td>
+        <td>50</td>
+        <td>
+          <a href="http://example.com">
+          Details
+          </a>
 
-      </td>
-    </tr>
-  </table>
+        </td>
+      </tr> -->
+    </table>
+  </div>
 </body>
 
 

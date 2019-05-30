@@ -176,26 +176,47 @@ a, a:visited {
 }
 
 table{
+  border-collapse: collapse;
   position: relative;
   margin: auto;
-  width: 1000px;
+  width: 1100px;
   background-color: #f9f9f9;
+  overflow-x: auto;
 }
 
+/*
 table, th, td{
   border: 1px solid black;
 }
+*/
+
+tbody {
+  max-height: 800;
+  overflow-y: scroll;
+  display: block;
+}
+
+th, td {
+  border-bottom: 1px solid rgb(145, 145, 145);
+}
 
 th{ 
-  font-size: 20px;
-  padding: 5px;
+  font-size: 18px;
+  padding: 10px;
+  background-color: black;
+  color:  white;
 }
 
 td{
-  padding: 1px;
+  padding: 5px;
   text-align: center;
   font-size: 16px;
 }
 
+.workshoprow:nth-child(even) {
+  background-color: rgb(218, 218, 218);
+}
 
-
+.workshoprow:hover {
+  background-color: rgb(202, 202, 202);
+}

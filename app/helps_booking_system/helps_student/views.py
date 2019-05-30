@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout
-from .models import StudentAccount
+from .models import StudentAccount, Workshop
 from .forms import StudentForm
 
 def login_request(request):
@@ -68,8 +68,13 @@ def bookings(request):
     return render(request, 'pages/layouts/booking.html', context)
 
 def workshops(request):
-    context = {'workshops_page': 'active'}
-    return render(request, 'pages/layouts/workshops.html', context)
+    # Workshop query
+    workshop_results = Workshop.objects.all()
+    context = {
+        'workshops_page': 'active',
+        'query_set': workshop_results
+    }
+    return render(request, 'workshops.html', context)
 
 def programs(request):
     context = {'programs_page': 'active'}

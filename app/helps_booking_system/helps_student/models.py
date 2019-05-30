@@ -3,7 +3,12 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ungettext_lazy as _
 from django.utils.translation import gettext_lazy as _g
 from django.contrib.auth.models import User
-from datetime import datetime
+from datetime import datetime, timedelta
+
+def default_start_time():
+    now = datetime.now()
+    start = now.replace(hour=23, minute=0, second=0, microsecond=0)
+    return start if start > now else start + timedelta(days=1)
 
 def parse_time_strings(time_string):
     '''Accepts comma separated string of datetimes and converts it into a list of datetimes'''
@@ -70,7 +75,7 @@ class DateListField(models.Field):
 
 class Session(models.Model):
 
-    session_ID = models.IntegerField(primary_key=True, unique=True)
+    session_ID = models.CharField(max_length=8, primary_key=True)
     # One StudentAccount has many Sessions
     student = models.ForeignKey(
         'StudentAccount',
@@ -82,7 +87,9 @@ class Session(models.Model):
         on_delete=models.CASCADE
     )
     location  = models.CharField(max_length=30)
-    session_time = models.DateTimeField()
+    date = models.DateField()
+    start_time = models.DateTimeField(default=default_start_time)
+    end_time = models.DateTimeField(default=default_start_time)
     has_finished  = models.BooleanField()
     no_show = models.BooleanField()
 
@@ -95,7 +102,7 @@ class Session(models.Model):
 
 class Workshop(models.Model):
 
-    workshop_ID = models.IntegerField(primary_key=True, unique=True)
+    workshop_ID = models.CharField(max_length=8, primary_key=True)
     # One StaffAccount has many Workshops
     staff = models.ForeignKey(
         'StaffAccount',
@@ -105,8 +112,15 @@ class Workshop(models.Model):
     students = models.ManyToManyField('StudentAccount')
     max_students = models.PositiveIntegerField()
     skill_set_name = models.CharField(max_length=64)
-    start_dates = DateListField()
-    end_dates = DateListField()
+    # start_dates = DateListField()
+    # end_dates = DateListField()
+    # Each workshop should be a separate entity, regardless of whether they are the same skillset
+    start_date = models.DateField(default=default_start_time)
+    end_date = models.DateField(default=default_start_time)
+    start_time = models.TimeField(default=default_start_time)
+    end_time = models.TimeField(default=default_start_time)
+    days = models.CharField(max_length=128, default="")
+    no_of_sessions = models.PositiveIntegerField(default=1)
     room = models.CharField(max_length=32)
 
     def __str__(self):
@@ -119,7 +133,7 @@ class Workshop(models.Model):
 
 class StaffAccount(models.Model):
 
-    staff_id = models.PositiveIntegerField(primary_key=True, unique=True)
+    staff_id = models.CharField(max_length=8, primary_key=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email  = models.EmailField()
@@ -149,7 +163,7 @@ class StaffAccount(models.Model):
 
 class StudentAccount(models.Model):
 
-    student_id = models.PositiveIntegerField(primary_key=True, unique=True)
+    student_id = models.CharField(max_length=8, primary_key=True)
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     email = models.EmailField()
@@ -161,14 +175,13 @@ class StudentAccount(models.Model):
     phone = models.CharField(max_length=12)
     mobile = models.CharField(max_length=12)
     best_contact_no = models.CharField(max_length=12)
-    DOB = models.EmailField()
+    DOB = models.DateField()
     gender = models.CharField(max_length=32)
     degree = models.CharField(max_length=64)
     status = models.CharField(max_length=64)
     first_language = models.CharField(max_length=32)
     country_of_origin = models.CharField(max_length=30)
     educational_background = models.CharField(max_length=30)
-    
 
     def __str__(self):
         return 'ID: {} - {}{}{}'.format(
@@ -192,7 +205,6 @@ class StudentAccount(models.Model):
 #     advisor = models.ForeignKey(UserAccount)
 #     session_time = models.DateTimeField('Session Time')
 #     venue = models.CharField('Location', max_length=20)
-
 
 
 
