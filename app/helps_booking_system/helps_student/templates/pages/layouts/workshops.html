@@ -1,32 +1,61 @@
-{% extends "pages/layouts/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<h1>Workshop Registration page</h1>
-<h6>Search for Workshops on a specific date</h6>
-<input id="date" type="date" value="2019-01-01">
-<h5>Search all Workshops</h5>
-<table style="width:100%">
+<head>
+  <meta charset="UTF-8">
+  <title>UTS:HELP's Workshop Registration</title>
+  <link rel="stylesheet" href="css/workshop-style.css">
+</head>
+
+<body>
+  <div class="header">
+    <header>
+      <img id="header-image" src="images/team_image_cropped.jpg" alt="stock-image">
+    </header>
+
+    <ul class="topnav">
+      <a href="#home">Home</a>
+      <a href="#My Bookings">My Bookings</a>
+      <a href="#Workshop Registration">Workshop Registration</a>
+      <a href="#programs">Programs</a>
+      <a href="#My Details">My Details</a>
+      <a href="#FAQ">FAQ</a>
+    </ul>
+
+  </div>
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+  <br>
+  <table class="table">
     <tr>
-        <th>Topics</th>
-        <th>Start Date</th>
-        <th>Finish Date</th>
-        <th>Days</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>No. Sessions</th>
-        <th>Places Avail.</th>
-        <th>Details</th>
+      <th>Topics</th>
+      <th>Start Date</th>
+      <th>Finish Date</th>
+      <th>Days</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>No. Sessions</th>
+      <th>Places Avail.</th>
+      <th>Details</th>
     </tr>
     <tr>
-        <td>Introduction to Django</td>
-        <td>10/04/2019</td>
-        <td>10/04/2019</td>
-        <td>Wed</td>
-        <td>1200</td>
-        <td>1400</td>
-        <td>1</td>
-        <td>50</td>
-        <td>Details</td>
-    </tr>
+      <td>Introduction to Django</td>
+      <td>10/04/2019</td>
+      <td>10/04/2019</td>
+      <td>Wed</td>
+      <td>1200</td>
+      <td>1400</td>
+      <td>1</td>
+      <td>50</td>
+      <td>
+        <a href="http://example.com">
+        Details
+        </a>
 
-</table>{% endblock %}
+      </td>
+    </tr>
+  </table>
+</body>
+
+
+</html>
