@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% load static %}
+
 <head>
   <meta charset="UTF-8">
   <title>UTS:HELP's Workshop Registration</title>
-  <link rel="stylesheet" href="css/workshop-style.css">
+  <link rel="stylesheet" type=text/css href="{% static 'css\workshop-style.css' %}">
 </head>
 
 <body>
   <div class="header">
     <header>
-      <img id="header-image" src="images/team_image_cropped.jpg" alt="stock-image">
+      <img id="header-image" src="{% static 'images/team_image_cropped.jpg' %}" alt="stock-image">
     </header>
 
     <ul class="topnav">

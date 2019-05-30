@@ -1,0 +1,129 @@
+* {
+  margin:0;
+  padding:0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/********NAV BAR *******/
+/* Add a black background color to the top navigation */
+.header {
+  background-color:#000000;
+  overflow: hidden;
+}
+
+.header {
+  width:fill;
+  height:auto;
+}
+
+.header{
+  padding:5px;
+}
+
+img {
+  width:100%;
+  height:250px;
+  object-fit:contain;
+  position: relative;
+  opacity: 1;
+  padding-bottom: 10px;
+}
+
+.topnav ul {
+  display: inline-block; 
+}
+
+.topnav a{
+  padding: 25px;
+}
+
+.topnav {
+  position: relative;
+  margin: auto;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Style the links inside the navigation bar */
+.header a {
+  color: #f2f2f2;
+  text-align: center;
+  padding: 10px 16px;
+  text-decoration: none;
+}
+
+/* Change the color of links on hover */
+.header-right a:hover {
+  background-color: #ddd;
+  color: #f2f2f2;
+}
+
+/* Add a color to the active/current link */
+.header a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+body {
+  background:#ecf0f1; /*From http://flatuicolors.com/ */
+}
+/********NAV BAR *******/
+
+
+input {
+  display:block;
+  width:315px;
+  padding:14px;
+  -webkit-border-radius:6px;
+     -moz-border-radius:6px;
+          border-radius:6px;
+  border:0;
+  margin-bottom:12px;
+  color:#7f8c8d;
+  font-weight:600;
+  font-size:16px;
+}
+
+input:focus {
+  background:#fafafa;
+}
+
+
+li {
+  position:absolute;
+  right:40px;
+  bottom:62px;
+  list-style:none;
+}
+
+a, a:visited {
+  text-decoration:none;
+  color:#7f8c8d;
+  font-weight:400;
+  -webkit-transition: all .3s ease-in-out;
+     -moz-transition: all .3s ease-in-out;
+          transition: all .3s ease-in-out;
+}
+
+.button {
+  position:relative;
+  float:left;
+  width:145px;
+  margin-top:10px;
+  background:#3498db;
+  color:#fff;
+  font-weight:400;
+  box-shadow:0px 3px 0px #2d7baf;
+  -webkit-transition: all .3s ease-in-out;
+     -moz-transition: all .3s ease-in-out;
+          transition: all .3s ease-in-out;
+}
+
+
+
+

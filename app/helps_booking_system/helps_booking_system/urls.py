@@ -20,6 +20,7 @@ from helps_student import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', views.login_request, name="login"),
     path('', views.redirect_view, name='Login'),
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/submit_profile/', views.submit_profile, name='submit_profile'),

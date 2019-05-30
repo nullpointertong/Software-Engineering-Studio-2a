@@ -6,7 +6,7 @@ from .forms import StudentForm
 
 def login_request(request):
     context = {'login_request': 'active'}
-    return render(request, 'registration/login.html', context)
+    return render(request, 'login.html', context)
 
 def profile(request):
     context = {'profile_page': 'active'}
@@ -89,7 +89,7 @@ def exit(request):
     return redirect_view(request)
 
 def redirect_view(request):
-    response = redirect('/accounts/login/')
+    response = redirect('login/')
     return response
 
 
