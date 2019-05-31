@@ -89,7 +89,7 @@ class Command(BaseCommand):
             end_date = get_date("end"),
             start_time = get_time("start"),
             end_time = get_time("end"),
-            days = input("Number of days: "),
+            days = input("Days (eg Mon, Tue): "),
             room = input("Room: ")
         )
         workshop.no_of_sessions = get_num_sessions()

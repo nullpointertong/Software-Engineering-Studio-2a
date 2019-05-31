@@ -10,7 +10,7 @@ def login_request(request):
 
 def profile(request):
     context = {'profile_page': 'active'}
-    return render(request, 'pages/layouts/profile.html', context)
+    return render(request, 'profile.html', context)
 
 def submit_profile(request):
     print("DEBUG FORM ADDED")
@@ -60,12 +60,12 @@ def submit_profile(request):
     )
     student_account.save()
     context = {'profile_page': 'active'}
-    return render(request,'pages/layouts/profile.html', context)
+    return render(request,'profile.html', context)
 
 
 def bookings(request):
     context = {'booking_page': 'active'}
-    return render(request, 'pages/layouts/booking.html', context)
+    return render(request, 'booking.html', context)
 
 def workshops(request):
     # Workshop query
@@ -78,11 +78,11 @@ def workshops(request):
 
 def programs(request):
     context = {'programs_page': 'active'}
-    return render(request, 'pages/layouts/programs.html', context)
+    return render(request, 'programs.html', context)
 
 def faq(request):
     context = {'faq_page': 'active'}
-    return render(request, 'pages/layouts/faq.html', context)
+    return render(request, 'faq.html', context)
 
 # def get_request(self, request):
 #     form = StudentForm() 

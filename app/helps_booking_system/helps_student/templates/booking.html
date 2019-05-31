@@ -1,6 +1,42 @@
-{% extends "pages/layouts/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<h1>Booking page</h1>
-<input id="date" type="date" value="2019-01-01">
-{% endblock %}
+    {% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <title>UTS:HELP's FAQ</title>
+
+    <link rel="stylesheet" type=text/css href="{% static 'css\faq-style.css' %}">
+
+</head>
+
+
+
+<body>
+  <div class="header">
+    <header>
+      <img id="header-image" src="{% static 'images/team_image_cropped.jpg' %}" alt="stock-image">
+    </header>
+
+    <ul class="topnav">
+      <a href="#home">Home</a>
+      <a href="#My Bookings">My Bookings</a>
+      <a href="#Workshop Registration">Workshop Registration</a>
+      <a href="#programs">Programs</a>
+      <a href="#My Details">My Details</a>
+      <a href="#FAQ">FAQ</a>
+    </ul>
+  </div>
+
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+
+  <div class="announcement">
+    <h2>My Bookings</h2>
+  </div>
+
+
+</body>
+
+</html>
