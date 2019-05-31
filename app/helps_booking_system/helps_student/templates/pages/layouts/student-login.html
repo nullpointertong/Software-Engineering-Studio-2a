@@ -44,9 +44,41 @@
       <input class="name" type="text" placeholder="Student ID"/>
       <input class="pw" type="password" placeholder="Password"/>
       <li><a href="https://www.uts.edu.au/current-students/managing-your-course/using-uts-systems/forgot-your-password">Forgot your password?</a></li>
-      <input class="button" type="submit" value="Log in"/>
+      {% block content %}
+
+{% if form.errors %}
+  <p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+  {% else %}
+    <p>Please login to see this page.</p>
+  {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<table>
+
+<tr>
+  <td>{{ 'Student Number:' }}</td>
+  <td>{{ form.username }}</td>
+</tr>
+
+<tr>
+  <td>{{ form.password.label_tag }} </td>
+  <td>{{ form.password }}</td>
+</tr>
+</table>
+
+      <input class="button" type="submit" value="login"/>
+      <input type="hidden" name="next" value="{{ next }}" />
     </form>
   </div>
+  {% endblock %}
 
 </body>
 

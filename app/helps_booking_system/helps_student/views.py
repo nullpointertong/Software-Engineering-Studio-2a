@@ -3,9 +3,20 @@ from django.http import HttpResponse
 from django.contrib.auth import logout
 from .models import StudentAccount, Workshop
 from .forms import StudentForm
+from django.contrib.auth import *
+
 
 def login_request(request):
     context = {'login_request': 'active'}
+
+    pw = request.POST.get('pw')
+    name = request.POST.get("name")
+    user = authenticate(request,username=name, password=pw)
+    if user is not None:
+        login(request,user)
+        context = {'profile_page': 'active'}   
+        return render(request, 'profile.html', context)
+
     return render(request, 'login.html', context)
 
 def profile(request):
