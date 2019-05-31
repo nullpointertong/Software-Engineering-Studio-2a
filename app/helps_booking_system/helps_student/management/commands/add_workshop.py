@@ -69,6 +69,13 @@ def get_time(when: str):
 def get_num_sessions():
     return int(input("Number of sessions: "))
 
+def get_new_workshop():
+    try:
+        _id = str(int(Workshop.objects.all().order_by("-workshop_ID")[0].workshop_ID) + 1)
+    except IndexError:
+        _id = 12000000
+    return _id
+
 class Command(BaseCommand):
     help = "Generates a new Workshop entry."
 
@@ -81,7 +88,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         workshop = Workshop(
-            workshop_ID = str(int(Workshop.objects.all().order_by("-workshop_ID")[0].workshop_ID) + 1),
             staff = get_staff(),
             max_students = input("Max number of students: "),
             skill_set_name = input("Skill set name: "),
@@ -92,6 +98,7 @@ class Command(BaseCommand):
             days = input("Days (eg Mon, Tue): "),
             room = input("Room: ")
         )
+        workshop.workshop_ID = get_new_workshop()
         workshop.no_of_sessions = get_num_sessions()
         workshop.save() # Must save before adding students
         workshop.students.set(get_student_list())
