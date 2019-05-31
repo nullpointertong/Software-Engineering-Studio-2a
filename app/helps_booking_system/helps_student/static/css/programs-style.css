@@ -199,5 +199,13 @@ a, a:visited {
 }
 
 
-
+footer {
+  background-color: black;
+  color: #f2f2f2;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+  display: block;
+}
 
