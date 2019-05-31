@@ -17,12 +17,12 @@
     </header>
 
     <ul class="topnav">
-      <a href="#home">Home</a>
-      <a href="#My Bookings">My Bookings</a>
-      <a href="#Workshop Registration">Workshop Registration</a>
-      <a href="#programs">Programs</a>
-      <a href="#My Details">My Details</a>
-      <a href="#FAQ">FAQ</a>
+      <a href="{% url 'login' %}">Home</a>
+      <a href="{% url 'bookings' %}">My Bookings</a>
+      <a href="{% url 'workshops' %}">Workshop Registration</a>
+      <a href="{% url 'programs' %}">Programs</a>
+      <a href="{% url 'profile' %}">My Details</a>
+      <a href="{% url 'faq' %}">FAQ</a>
     </ul>
 
   </div>
