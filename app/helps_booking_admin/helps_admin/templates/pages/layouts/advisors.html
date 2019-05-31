@@ -1,5 +1,68 @@
 {% extends "pages/layouts/base.html" %}
 
-{% block content %}
-<h1>Advisors page</h1>
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    {% load static %}
 {% endblock %}
+
+{% block content %}
+<body>
+
+    {% block sub %}
+    
+    <h1>Advisors page</h1>
+    <div id="View" style="height:20%">
+        <form action="/advisors/" method="POST">
+            {% csrf_token %}
+            <h5>Filter advisors</h5>
+            <div>
+                <p>Advisor first name
+                    <input name="first_name" type="text">
+                </p>
+                <p>Advisor last name
+                    <input name="last_name" type="text">
+                </p>
+                <p>Advisor ID
+                    <input name="advisor_id" type="text">
+                </p>
+                <p>Faculty
+                    <input name="faculty" type="text">
+                </p>
+            </div>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+    {% endblock %}
+    
+    {% block booking_list %}
+    <h2> Advisors </h2>
+
+    <table id="object_list_table" class="table table-striped">
+        <tr>
+            <td> Advisor ID </td>
+            <td> First Name </td>
+            <td> Last Name </td>
+            <td> Faculty </td>
+            <td>  </td>
+        </tr>
+        {% if advisor_list %}
+            {% for advisor in advisor_list %}
+                <tr>
+                    <td> {{ advisor.staff_id }} </td>
+                    <td> {{ advisor.first_name }} </td>
+                    <td> {{ advisor.last_name }} </td>
+                    <td> {{ advisor.faculty }} </td>
+                    <td><a href="/advisors/?advisorid={{ advisor.staff_id }}"> View/Edit </a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+           <tr><td>
+                <p> No advisors found. </p>
+           </td></tr>
+        {% endif %}
+    </table>
+    {% endblock %}
+</body>
+{% endblock %} 

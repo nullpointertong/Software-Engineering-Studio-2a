@@ -441,7 +441,7 @@ def delete_session(request):
 
 
 def sessions(request):
-    return render(request, 'pages/layouts/sessions.html', { 'filtered_objecst': Session.objects.all() })
+    return render(request, 'pages/layouts/sessions.html', { 'filtered_sessions': Session.objects.all() })
 
 def get_date(req_day):
     if req_day:
@@ -473,6 +473,22 @@ def workshops(request):
 
 def advisors(request):
     context = {'advisors_page': 'active'}
+    advisor_list = StaffAccount.objects.all()
+    if request.method == "POST":
+        data = request.POST
+        advisor_list = advisor_list.filter(
+            staff_id__contains=data['advisor_id'],
+            first_name__contains=data['first_name'],
+            last_name__contains=data['last_name'],
+            faculty__contains=data['faculty'],
+        )
+    else:   
+        advisorid = request.GET.get('advisorid', None)
+        if advisorid is not None:
+            advisor_list = advisor_list.filter(staff_id=advisorid)
+    context = {
+        'advisor_list': advisor_list
+    }
     return render(request, 'pages/layouts/advisors.html', context)
 
 def students(request):

@@ -1,21 +1,22 @@
-.session_table {
-    width: 420px;
+.object_list_table {
+    width: 94%;
     margin-left: 20px;
+    margin-right: 20px;
     font-size: 14px;
     table-layout: fixed;
 }
 
-.session_table tr, .session_table td {
+.object_list_table tr, .object_list_table td {
     border: 1px solid #264ab5 !important;
 }
 
-.session_table th {
+.object_list_table th {
     padding: 10px;
     text-align: center;
     font-size: 13px;
 }
 
-.session_table td {
+.object_list_table td {
     text-align: center;
     position: relative;
     width: 14.2857%;

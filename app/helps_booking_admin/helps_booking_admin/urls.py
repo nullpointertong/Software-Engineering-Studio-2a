@@ -15,14 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin, auth
 from django.urls import path, include, re_path
-from django.views import generic
 from helps_admin import views
-
+    
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', views.search_sessions, name='sessions'),
-    path('sessions/', views.search_sessions, name='sessions'),
+    path('', views.sessions, name='sessions'),
+    path('sessions/', views.sessions, name='sessions'),
     path('workshops/', views.workshops, name='workshops'),
     path('advisors/', views.advisors, name='advisors'),
     path('students/', views.students, name='students'),
@@ -32,8 +31,8 @@ urlpatterns = [
     path('room/', views.room, name='room'),
     path('message/', views.message, name='message'),
     path('exit/', views.exit, name='exit'),
-    path('create_session/', views.create_session, name='create_session'),
+    path('search_sessions/', views.search_sessions, name='search_sessions'),
     path('edit_session/', views.edit_session, name='edit_session'),
     path('delete_session/', views.delete_session, name='delete_session'),
-    path('search_sessions/', views.search_sessions, name='search_sessions')
+    path('create_session/', views.create_session, name='create_session')
 ]

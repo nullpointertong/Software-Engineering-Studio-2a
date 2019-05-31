@@ -5,6 +5,11 @@ from django.utils.translation import gettext_lazy as _g
 from django.contrib.auth.models import User
 from datetime import datetime
 
+def default_start_time():
+    now = datetime.now()
+    start = now.replace(hour=23, minute=0, second=0, microsecond=0)
+    return start if start > now else start + timedelta(days=1)
+
 def parse_time_strings(time_string):
     '''Accepts comma separated string of datetimes and converts it into a list of datetimes'''
     result_list = []

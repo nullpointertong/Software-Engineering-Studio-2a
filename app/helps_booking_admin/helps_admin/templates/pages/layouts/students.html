@@ -4,17 +4,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/admin-session-style.css' %}">
-    <script src="{% static 'sessions/sessions.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 <body>
 
     {% block sub %}
-    <div style="position:relative; float:right; margin-right:20px; width:10%">
+    <!-- <div style="position:relative; float:right; margin-right:20px; width:10%">
             <a class='nav-link' href="{% url 'create_session' %}"><span>Book new session</span></a>
-    </div>
+    </div> -->
     
     <h1>Students page</h1>
     <div id="View" style="height:20%">
@@ -44,7 +42,7 @@
     {% block booking_list %}
     <h2> Students </h2>
 
-    <table id="student_table" class="table table-striped" style="width:80%">
+    <table id="object_list_table" class="table table-striped">
         <tr>
             <td> Student ID </td>
             <td> First Name </td>
