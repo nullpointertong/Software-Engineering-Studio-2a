@@ -102,7 +102,8 @@ class Session(models.Model):
 
 class Workshop(models.Model):
 
-    workshop_ID = models.CharField(max_length=8, primary_key=True)
+    workshop_ID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=20, default="")#
     # One StaffAccount has many Workshops
     staff = models.ForeignKey(
         'StaffAccount',
@@ -112,8 +113,15 @@ class Workshop(models.Model):
     students = models.ManyToManyField('StudentAccount')
     max_students = models.PositiveIntegerField()
     skill_set_name = models.CharField(max_length=64)
-    start_dates = DateListField()
-    end_dates = DateListField()
+    # start_dates = DateListField()
+    # end_dates = DateListField()
+    # Each workshop should be a separate entity, regardless of whether they are the same skillset
+    start_date = models.DateField(default=default_start_time)
+    end_date = models.DateField(default=default_start_time)
+    start_time = models.TimeField(default=default_start_time)
+    end_time = models.TimeField(default=default_start_time)
+    days = models.CharField(max_length=128, default="")
+    no_of_sessions = models.PositiveIntegerField(default=1)
     room = models.CharField(max_length=32)
 
     def __str__(self):
@@ -121,9 +129,7 @@ class Workshop(models.Model):
             "Workshop ID: {}".format(self.workshop_ID),
             "Staff: {}".format(self.staff),
             "Students: {}".format(self.students)
-        ])
-        
-
+])
 class StaffAccount(models.Model):
 
     staff_id = models.CharField(max_length=8, primary_key=True)
@@ -131,7 +137,7 @@ class StaffAccount(models.Model):
     last_name = models.CharField(max_length=30)
     email  = models.EmailField()
     session_history = DateListField()
-    #no_show_history = DateListField()
+    # staff_role = models.CharField(max_length=12)
     faculty =  models.CharField(max_length=30)
     course =  models.CharField(max_length=30)
     preferred_first_name = models.CharField(max_length=64)

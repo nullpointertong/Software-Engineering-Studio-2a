@@ -22,6 +22,7 @@ function selectDate (formatted_date) {
 function book () {
   var student_input = document.getElementById('student_search');
   var advisor_input = document.getElementById('advisor_search');
+  var location_input = document.getElementById('location_input');
   var date_input = document.getElementById('date');
   var sh = document.getElementById('hour-start').value;
   var sm = document.getElementById('min-start').value;
@@ -38,6 +39,12 @@ function book () {
   {
     advisor_input.placeholder = "Required field!";
     advisor_input.style.color = "red";
+    form_incomplete = true;
+  }
+  if (location_input.value === "")
+  {
+    location_input.placeholder = "Required field!";
+    location_input.style.color = "red";
     form_incomplete = true;
   }
   var start_time = 100 * sh + 1 * sm;

@@ -34,7 +34,7 @@
             {{ calendar }}
         </div>
         {% endif %}
-        <div id="sess_time_select" style="display:{{ time_selection_visible }}; margin-left:15px; float:inline-left; position:relative">
+        <div id="sess_time_select" style="float:left; display:{{ time_selection_visible }}; margin-left:15px; position:relative">
             <div style="display:inline-block">
                 <a>Date: </a>
                 <br>
@@ -67,13 +67,13 @@
                 <input id='confirm_hidden' type="hidden" name="confirm_booking" value="no" />
                 <input id='editing_booking' type="hidden" name="edit_booking" value="{{ form_type }}" />
                 <input id='session_id' type="hidden" name="session_id" value="{{ session }}" />
-                <button id="check-button" style="margin:10px; position:relative">Check validity</button>
+                <button class="btn" id="check-button" style="margin:10px; position:relative">Check validity</button>
                 <br>
                 {% if not clean_page %}
                 {% if form_valid %}
                 <div id='booking_span'>
                     <span>Press "Update" to confirm your changes.</span>
-                    <button type=button onclick="confirmBooking();" style="margin:10px; position:relative">Update</button>
+                    <button class="btn" type=button onclick="confirmBooking();" style="margin:10px; position:relative">Update</button>
                     
                 </div>
                 {% else %}
@@ -87,9 +87,8 @@
             </div>
         </div>
     </form> 
-    
-    <form id="delete_session" action="/delete_session/" method="POST">{% csrf_token %}
-        <button type=submit style="margin:10px; position:relative; background-color: red;color:white">Delete booking</button>
+    <form id="delete_session" style="display:inline-block; float:right;" action="/delete_session/" method="POST">{% csrf_token %}
+        <button type=submit class="btn" style="margin:10px; position:relative; background-color: red;">Delete booking</button>
         <input id='session_id' type="hidden" name="session_id" value="{{ session }}" />
     </form>
     </div>

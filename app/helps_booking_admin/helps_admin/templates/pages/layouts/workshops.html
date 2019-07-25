@@ -1,5 +1,75 @@
 {% extends "pages/layouts/base.html" %}
 
-{% block content %}
-<h1>Workshop Registration page</h1>
+{% block extra_head %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin-session-style.css' %}">
 {% endblock %}
+
+{% block content %}
+<body>
+
+    {% block sub %}
+    <div style="position:relative; float:right; margin-right:20px; width:10%">
+            <a class='btn' href="{% url 'create_workshop' %}"><span>Add workshop</span></a>
+    </div>
+    
+    <h1>Workshops</h1>
+    <div id="View" class="filter_box" style="height:20%">
+        <form action="/workshops/" method="POST">
+            {% csrf_token %}
+            <div>
+                <strong>Filter by: </strong>
+                <div>
+                    <!-- <span>Workshop ID
+                        <input name="workshop_id" type="text">
+                    </span> -->
+                    <span>Title
+                        <input name="workshop_title" type="text">
+                    </span>
+                    <span>Skill Set
+                        <input name="workshop_skillset" type="text">
+                    </span>
+                    <span>Advisor ID
+                        <input name="advisor_id" type="text">
+                    </span>
+                </div>
+            </div>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+
+    {% endblock %}
+    
+    {% block booking_list %}
+
+    <table id="object_list_table" class="table table-striped object_list_table">
+        <tr>
+            <td> Title </td>
+            <td> Skill Set </td>
+            <td> Advisor </td>
+            <td> Start </td>
+            <td> Finish </td>
+            <td>  </td>
+        </tr>
+        {% if workshop_list %}
+            {% for workshop in workshop_list %}
+                <tr>
+                    <td> {{ workshop.title }} </td>
+                    <td> {{ workshop.skill_set_name }} </td>
+                    <td> {{ workshop.staff }} </td>
+                    <td> {{ workshop.start_time }} </td>
+                    <td> {{ workshop.end_time }} </td>
+                    <td><a href="/workshops/?workshopid={{ workshop.workshop_ID }}"> View/Edit </a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+           <tr><td>
+                <p> No workshops found. </p>
+           </td></tr>
+        {% endif %}
+    </table>
+    {% endblock %}
+</body>
+{% endblock %} 

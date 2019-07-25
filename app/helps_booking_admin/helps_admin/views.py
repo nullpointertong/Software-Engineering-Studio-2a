@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 from django.utils import timezone
 
 
-from helps_admin.models import Session, StudentAccount, StaffAccount
+from helps_admin.models import Session, StudentAccount, StaffAccount, Workshop
 from helps_admin.cal import Calendar
 
 from .forms import BookSessionForm
@@ -40,14 +40,21 @@ def search_sessions(request):
         students = StudentAccount.objects.all()
         if data['student_id']:
             students = students.filter(student_id__contains=data["student_id"])
-        if data['first_name']:
-            students = students.filter(first_name__contains=data["first_name"])
-        if data['last_name']:
-            students = students.filter(last_name__contains=data["last_name"])
-
+        if data['stu_first_name']:
+            students = students.filter(first_name__contains=data["stu_first_name"])
+        if data['stu_last_name']:
+            students = students.filter(last_name__contains=data["stu_last_name"])
+        staff = StaffAccount.objects.all()
+        if data['advisor_id']:
+            staff = staff.filter(student_id__contains=data["advisor_id"])
+        if data['adv_first_name']:
+            staff = staff.filter(first_name__contains=data["adv_first_name"])
+        if data['adv_last_name']:
+            staff = staff.filter(last_name__contains=data["adv_last_name"])
         sessions = sessions.filter(
             date__contains=data["date"],
-            student__in=students
+            student__in=students,
+            staff__in=staff
         )
         print(len(sessions))
         context = {
@@ -130,6 +137,7 @@ def edit_session(request):
         today = date.today()
         date_ = data['req_sess_date']
         context['default_date'] = date_
+        context['default_location'] = data['req_location']
         y, m, d = map(int, date_.split('-'))
         if date(y, m, d) < today:
             context['form_valid'] = False
@@ -398,46 +406,6 @@ def delete_session(request):
             #     print(e)
             #     return render(request, 'error.html', {})
         return render(request, 'error.html', {})
-# class SessionConstants(generic.ListView):
-#     template_name = 'pages/layouts/create_session.html'
-#     form = CreateSessionForm()
-#     # Drop down options for hours and minutes
-#     opt_hours = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(7, 21)])
-#     opt_minutes = '\n'.join(["<option value='{0:02d}'>{0:02d}</option>".format(i) for i in range(0, 60, 15)])
-#     today = datetime.today()
-#     calendar = Calendar(today.year, today.month, today.day)
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context.update({
-#             'page_title': 'Book a Session',
-#             'default_date': datetime.now().strftime('%Y-%m-%d'),
-#             'default_student': '',
-#             'default_advisor': '',
-#             'default_location': '',
-#             'opt_hours': mark_safe(SessionConstants.opt_hours),
-#             'opt_minutes': mark_safe(SessionConstants.opt_minutes),
-#             'opt_hours_1': mark_safe(SessionConstants.opt_hours),
-#             'opt_minutes_1': mark_safe(SessionConstants.opt_minutes),
-#             'time_selection_visible': 'none',
-#             'clean_page': True,
-#             'form_valid': False,
-#             'student_info': '',
-#             'advisor_info': ''
-#         })
-#         d = get_date(self.request.GET.get('month', None))
-#         # Instantiate our calendar class with the selected day's year and date
-#         cal = SessionConstants.calendar.new_date(d.year, d.month, d.day)
-#         context['prev_month'] = prev_month(d)
-#         context['next_month'] = next_month(d)
-#         # print (context)
-#         html_cal = cal.formatmonth(True, context['prev_month'], context['next_month'])
-
-#         context['calendar'] = mark_safe(html_cal)
-#         context['form'] = SessionConstants.form
-#         context['filtered_sessions'] = Session.objects.all()
-
-#         return context
 
 
 def sessions(request):
@@ -469,7 +437,149 @@ def next_month(d):
 
 def workshops(request):
     context = {'workshops_page': 'active'}
+    workshop_list = Workshop.objects.all()
+    
+    if request.method == "POST":
+        data = request.POST
+        staff = StaffAccount.objects.filter(staff_id=data['advisor_id'])
+        if len(staff) == 0: staff = StaffAccount.objects.all()
+        workshop_list = workshop_list.filter(
+            title__contains=data['workshop_title'],
+            staff__in=staff,
+            skill_set_name__contains=data['workshop_skillset']
+        )
+        # except:
+        #     workshop_list = []
+    else:
+        wsid = request.GET.get('workshopid', None)
+        if wsid is not None:
+            workshop_list = workshop_list.filter(workshop_ID=wsid)
+    context = {
+        'workshop_list': workshop_list
+    }
     return render(request, 'pages/layouts/workshops.html', context)
+
+def create_workshop(request):
+    if request.method == "POST":
+        data = request.POST
+        context = {}
+        context['errors'] = []
+        context['form_valid'] = True
+        context['time_selection_visible'] = 'block'
+        # Session date
+        today = date.today()
+        date_ = data['req_sess_date']
+        context['default_date'] = date_
+        context['default_location'] = data['req_location']
+        context['default_title'] = data['req_title']
+        context['default_skillset'] = data['req_ws_skillset']
+        context['default_maxcap'] = data['req_ws_maxcap']
+        y, m, d = map(int, date_.split('-'))
+        if date(y, m, d) < today:
+            context['form_valid'] = False
+            context['errors'] += 'Date cannot be in the past!',
+        # Starting hour, minute, am/pm
+        sh, sm = data['req_sess_sh'], data['req_sess_sm']
+        # Ending hour, minute, am/pm
+        eh, em = data['req_sess_eh'], data['req_sess_em']
+        hour_options = SessionConstants.opt_hours.replace("value='%s'" % sh, "value='%s' selected='selected'" % sh) # Set default as the selected value
+        minute_options = SessionConstants.opt_minutes.replace("value='%s'" % sm, "value='%s' selected='selected'" % sm)
+        hour_options_1 = SessionConstants.opt_hours.replace("value='%s'" % eh, "value='%s' selected='selected'" % eh)
+        minute_options_1 = SessionConstants.opt_minutes.replace("value='%s'" % em, "value='%s' selected='selected'" % em)
+        context.update(
+            {
+                'opt_hours': mark_safe(hour_options),
+                'opt_minutes': mark_safe(minute_options),
+                'opt_hours_1': mark_safe(hour_options_1),
+                'opt_minutes_1': mark_safe(minute_options_1)
+            }
+        )
+        selected_date = date(y, m, d)
+        context['prev_month'] = prev_month(selected_date)
+        context['next_month'] = next_month(selected_date)
+
+        context['default_location'] = data['req_location']
+        
+        advisor_query = data['req_advisor_id']
+
+        if advisor_query.isdigit():
+            matched_advisor = StaffAccount.objects.filter(staff_id__exact=advisor_query)
+            if len(matched_advisor) == 0:
+                context['form_valid'] = False
+                context['advisor_info'] = "NOT FOUND"
+                context['advisor_info_color'] = "color: red"
+                context['errors'] += 'Advisor ID not registered with HELPS.',
+            else:
+                context['advisor_info'] = matched_advisor[0].last_name.upper() + ', ' + matched_advisor[0].first_name
+        else:
+            context['form_valid'] = False
+            context['advisor_info'] = "INVALID INPUT"
+            context['advisor_info_color'] = "color: red"
+            context['errors'] += 'Staff ID must be numerical.',
+
+        context['default_advisor'] = advisor_query
+        context['clean_page'] = False
+
+        if data['confirm_booking'] == 'yes':
+            date_ = date(y, m, d)
+            start_time = datetime(y, m, d, int(sh), int(sm), tzinfo=timezone.utc)
+            end_time = datetime(y, m, d, int(eh), int(em), tzinfo=timezone.utc)
+            new_ws = Workshop.objects.create(
+                staff=matched_advisor[0],
+                title=data['req_title'],
+                max_students=data['req_ws_maxcap'],
+                skill_set_name = data['req_ws_skillset'],
+                start_date=date_,
+                end_date=date_,
+                start_time=start_time,
+                end_time=end_time,
+                room=data['req_location'],
+                no_of_sessions=1,
+                days="")
+            context['confirm_text'] = 'Workshop Created Successfully.'
+            context['from_time'] = start_time.strftime("%I:%M %p")
+            context['to_time'] = end_time.strftime("%I:%M %p")
+            return render(request, 'pages/layouts/workshop_confirmed.html', context)
+        else:
+            context['page_title'] = 'Confirm Workshop' if context['form_valid'] else 'Create Workshop'
+            context['book_or_edit'] = 'Create'
+            context['calendar'] = mark_safe(SessionConstants.calendar.new_date(y, m, d).formatmonth(True, context['prev_month'], context['next_month']))
+            return render(request, 'pages/layouts/create_workshop.html', context)
+    elif request.method == "GET":
+        # context = super().get_context_data(**kwargs)
+
+        context = {}
+        context.update({
+            'page_title': 'Create Workshop',
+            'default_date': datetime.now().strftime('%Y-%m-%d'),
+            'default_student': '',
+            'default_advisor': '',
+            'default_location': '',
+            'opt_hours': mark_safe(SessionConstants.opt_hours),
+            'opt_minutes': mark_safe(SessionConstants.opt_minutes),
+            'opt_hours_1': mark_safe(SessionConstants.opt_hours),
+            'opt_minutes_1': mark_safe(SessionConstants.opt_minutes),
+            'time_selection_visible': 'none',
+            'clean_page': True,
+            'form_valid': False,
+            'student_info': '',
+            'advisor_info': ''
+        })
+        d = get_date(request.GET.get('month', None))
+        # Instantiate our calendar class with the selected day's year and date
+        cal = SessionConstants.calendar.new_date(d.year, d.month, d.day)
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+        # print (context)
+        html_cal = cal.formatmonth(True, context['prev_month'], context['next_month'], False)
+
+        context['calendar'] = mark_safe(html_cal)
+        # context['form'] = SessionConstants.form
+        context['filtered_sessions'] = Session.objects.all()
+        # Instantiate our calendar class with the selected day's year and date
+        cal = SessionConstants.calendar.new_date(d.year, d.month, d.day)
+        context['time_selection_visible'] = 'block'
+        return render(request, 'pages/layouts/create_workshop.html', context)
 
 def advisors(request):
     context = {'advisors_page': 'active'}
@@ -537,10 +647,10 @@ def message(request):
 
 def exit(request):
     logout(request)
-    return redirect_view(request)
+    return redirect_view(request, '/accounts/login/')
 
-def redirect_view(request):
-    response = redirect('/accounts/login/')
+def redirect_view(request, path=''):
+    response = redirect(path)
     return response
 
 

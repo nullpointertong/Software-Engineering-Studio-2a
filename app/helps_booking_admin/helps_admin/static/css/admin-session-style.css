@@ -1,25 +1,24 @@
 .object_list_table {
-    width: 94%;
+    width:94%;
     margin-left: 20px;
     margin-right: 20px;
     font-size: 14px;
-    table-layout: fixed;
+    table-layout: relative;
 }
 
 .object_list_table tr, .object_list_table td {
-    border: 1px solid #264ab5 !important;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
-
+/*
 .object_list_table th {
     padding: 10px;
     text-align: center;
     font-size: 13px;
-}
+} */
 
-.object_list_table td {
-    text-align: center;
-    position: relative;
-    width: 14.2857%;
-    height: 20px;
-    padding: 10px 0px 10px 0px;
+.filter_box {
+    font-size: 12px;
+    height: 30%;
+    display: inline-block;
 }
